@@ -268,7 +268,6 @@ export default function ChatContainer() {
 
   // Helper: send the message + email to the API
   const sendToApi = async (text: string, email: string) => {
-    const userMessageId = generateId();
     setIsSending(true);
 
     try {
