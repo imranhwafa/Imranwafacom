@@ -21,25 +21,101 @@
     If you're a dev... PRs welcome!
 
 -->
-<html lang="en">
+<html lang="en" data-theme="paper">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
     content="Imran Wafa — Builder, developer, and creative technologist. Explore my work and get in touch." />
-  <meta name="theme-color" content="#0a0a0f" />
-  <title>Imran Wafa</title>
+  <meta name="theme-color" content="#fbfbfc" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <link rel="manifest" href="/manifest.json" />
+  <title>Imran Wafa — A Specimen Sheet</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Pacifico&display=swap"
-    rel="stylesheet" />
+  <!-- Only the three always-used families are in the critical path; the
+       experiment fonts (Archivo, Familjen Grotesk, Syne) are
+       lazy-loaded on demand by ensureFontLoaded() in motion.tsx. -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" />
+  </noscript>
 </head>
 
 <body>
   <!--  You found the secret layer. Go check the console too ;) -->
   <div id="root"></div>
+
+  <!-- Slow-load fallback (JS on, but slow connection): if the app hasn't booted
+       within 3s, show a tiny critical hero + contact so the page is never blank.
+       main.tsx sets window.__appReady on boot and removes the .slow class. -->
+  <style>
+    html { background: #fbfbfc; color: #16161a; }
+
+    #root { transition: opacity 0.5s ease; opacity: 1; }
+    html.slow #root { opacity: 0 !important; pointer-events: none; }
+
+    #lite {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 24px; opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    html.slow #lite { opacity: 1; pointer-events: auto; }
+
+    .lite-inner { max-width: 640px; width: 100%; }
+    .lite-inner .mono {
+      font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; margin-bottom: 24px;
+    }
+    .lite-inner h1 {
+      font-size: clamp(48px, 10vw, 88px); line-height: 0.95; letter-spacing: -0.04em;
+      margin: 0; font-weight: 500;
+    }
+    .lite-inner h1 em { font-style: italic; color: #5064ff; font-weight: 400; }
+
+    .lite-inner p {
+      font-size: 18px; opacity: 0.7; margin: 24px 0 32px; max-width: 48ch; line-height: 1.5;
+    }
+    .lite-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .lite-links a {
+      font-size: 15px; color: inherit; text-decoration: none;
+      border-bottom: 1px solid rgba(128,128,128,0.3); padding-bottom: 2px; transition: border-color 0.2s;
+    }
+    .lite-links a:hover { border-bottom-color: currentColor; }
+  </style>
+  <div id="lite" aria-hidden="true">
+    <div class="lite-inner">
+      <div class="mono">Imran Wafa · specimen sheet</div>
+      <h1>I build<br><em>things.</em></h1>
+      <p id="lite-msg">One sec — the full interactive version is still loading. Here are the essentials in the meantime.</p>
+      <div class="lite-links">
+        <a href="mailto:contact@imranwafa.com">contact@imranwafa.com</a>
+        <a href="https://github.com/imranwafa-com">GitHub</a>
+        <a href="https://www.linkedin.com/in/imran-w-9741082a3">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 3s: still not booted → show the lightweight critical version.
+    setTimeout(function () {
+      if (!window.__appReady) document.documentElement.classList.add('slow');
+    }, 3000);
+    // 6s: still not booted → add a second line below the first so it doesn't feel stuck.
+    setTimeout(function () {
+      var first = document.getElementById('lite-msg');
+      if (!window.__appReady && first && !document.getElementById('lite-msg2')) {
+        var m2 = document.createElement('p');
+        m2.id = 'lite-msg2';
+        m2.textContent = "Almost there — one more minute. Thanks for hanging on.";
+        first.insertAdjacentElement('afterend', m2);
+      }
+    }, 6000);
+  </script>
   <noscript>
     <style>
       /* Reset */
@@ -378,17 +454,25 @@
         <div class="noscript-timeline-item">
           <div class="noscript-timeline-dot"></div>
           <div class="noscript-timeline-content">
-            <h4>Data Analyst — Instawire LLC</h4>
-            <div class="noscript-period">2021 – 2024</div>
-            <p>Creating graphs, charts, and data visualizations to help businesses make better decisions.</p>
+            <h4>DCO — Petromax (NCO)</h4>
+            <div class="noscript-period">2024 – Present</div>
+            <p>DCO at the NCO for Petromax — monitoring operations in real time, working DCO tickets through the day, and automating the repetitive parts so the queue stays sane.</p>
           </div>
         </div>
         <div class="noscript-timeline-item">
           <div class="noscript-timeline-dot"></div>
           <div class="noscript-timeline-content">
-            <h4>Data Analyst — MGT Well</h4>
+            <h4>Data Analyst &amp; NCO — Instawire LLC</h4>
+            <div class="noscript-period">2021 – 2024</div>
+            <p>Built dashboards and charts to help the team actually understand their data. Lots of Excel. Moved into NCO work near the end.</p>
+          </div>
+        </div>
+        <div class="noscript-timeline-item">
+          <div class="noscript-timeline-dot"></div>
+          <div class="noscript-timeline-content">
+            <h4>Data Entry — MGT Well</h4>
             <div class="noscript-period">2020 – 2021</div>
-            <p>Created different types of data on different mediums to get greater quality data.</p>
+            <p>Data entry and cleanup work. Not glamorous but I learned what bad data actually looks like up close.</p>
           </div>
         </div>
         <div class="noscript-timeline-item">

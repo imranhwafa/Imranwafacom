@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="22" fill="#f4f4f6"/>
+  <!-- registration crosshair — the specimen sheet's signature mark -->
+  <g stroke="#3a3ad6" stroke-width="3.2" stroke-linecap="square">
+    <line x1="50" y1="14" x2="50" y2="34"/>
+    <line x1="50" y1="66" x2="50" y2="86"/>
+    <line x1="14" y1="50" x2="34" y2="50"/>
+    <line x1="66" y1="50" x2="86" y2="50"/>
+  </g>
+  <circle cx="50" cy="50" r="6.5" fill="none" stroke="#3a3ad6" stroke-width="3.2"/>
+  <text x="50" y="55.5" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-style="italic" font-weight="600" fill="#3a3ad6" text-anchor="middle" dominant-baseline="middle">iw</text>
+</svg>
