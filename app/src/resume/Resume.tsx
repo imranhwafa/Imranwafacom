@@ -23,6 +23,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 const FLIP_LOCK = 460; // ms between page flips — tames trackpad inertia
 
+// Page width tracks the viewport. Phones get a wider fraction (no side panels)
+// and are capped a touch shorter so the sheet fits above the bottom bar.
+function calcPageW() {
+  const vw = window.innerWidth;
+  if (vw <= 640) return Math.min(vw * 0.9, (window.innerHeight - 150) / 1.3);
+  return Math.min(vw * 0.82, 760);
+}
+
 export default function Resume() {
   const navigate = useNavigate();
   const reduce = useReducedMotion();
@@ -33,12 +41,13 @@ export default function Resume() {
   // The footer only becomes reachable once you've flipped to the last page and
   // keep scrolling — until then the deck owns the scroll.
   const [showFooter, setShowFooter] = useState(false);
-  const [pageW, setPageW] = useState(() => Math.min(window.innerWidth * 0.82, 760));
+  const [pageW, setPageW] = useState(calcPageW);
+  const [mob, setMob] = useState(() => window.innerWidth <= 640);
   const lock = useRef(false);
 
-  // Page width tracks the viewport so the sheet stays readable on any screen.
+  // Keep the sheet sized to the viewport on rotate/resize.
   useEffect(() => {
-    const onResize = () => setPageW(Math.min(window.innerWidth * 0.82, 760));
+    const onResize = () => { setPageW(calcPageW()); setMob(window.innerWidth <= 640); };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
@@ -100,7 +109,7 @@ export default function Resume() {
 
   return (
     <div
-      className="resume-stage"
+      className={`resume-stage${showFooter ? ' footer-open' : ''}`}
       onWheel={onWheel}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
@@ -116,7 +125,7 @@ export default function Resume() {
         animate={{
           opacity: leaving || showFooter ? 0 : 1,
           scale: leaving ? 0.97 : 1,
-          y: showFooter ? -window.innerHeight * 0.5 : 0,
+          y: showFooter ? -window.innerHeight * (mob ? 0.3 : 0.5) : 0,
           filter: leaving ? 'blur(6px)' : 'blur(0px)',
         }}
         transition={{ duration: reduce ? 0 : 0.55, ease: [0.22, 1, 0.36, 1] }}
@@ -142,17 +151,20 @@ export default function Resume() {
                   opacity: d === 0 ? 1 : 0,
                   y: 0, scale: 1, rotateX: 0, rotateZ: 0, filter: 'blur(0px)',
                 } : {
-                  // Read sheets are lifted clear off the top of the deck — a big
-                  // arc up, tilted back and rocked slightly as they peel away.
-                  // Deck sheets fan out below the front, smaller and dimmer.
-                  y: read ? -window.innerHeight * 0.92 : Math.min(d, 4) * 24,
-                  scale: read ? 1.08 : 1 - Math.min(d, 4) * 0.05,
-                  rotateX: read ? 22 : 0,
-                  rotateZ: read ? (i % 2 ? -4 : 4) : 0,
+                  // Read sheets lift off the top of the deck; deck sheets fan
+                  // out below the front. Toned down on mobile — a smaller, flatter
+                  // slide instead of the big tilted arc, which feels jarring on a
+                  // small screen (and skips the blur for performance).
+                  y: read ? -window.innerHeight * (mob ? 0.55 : 0.92) : Math.min(d, 4) * (mob ? 12 : 24),
+                  scale: read ? (mob ? 1.02 : 1.08) : 1 - Math.min(d, 4) * (mob ? 0.03 : 0.05),
+                  rotateX: read ? (mob ? 6 : 22) : 0,
+                  rotateZ: read ? (mob ? (i % 2 ? -1.5 : 1.5) : (i % 2 ? -4 : 4)) : 0,
                   opacity: read ? 0 : Math.max(0, 1 - Math.min(d, 4) * 0.16),
-                  filter: read ? 'blur(3px)' : 'blur(0px)',
+                  filter: mob ? 'blur(0px)' : (read ? 'blur(3px)' : 'blur(0px)'),
                 }}
-                transition={{ type: 'spring', stiffness: 200, damping: 24, mass: 1 }}
+                transition={mob
+                  ? { type: 'spring', stiffness: 300, damping: 34 }   // snappier, little overshoot
+                  : { type: 'spring', stiffness: 200, damping: 24, mass: 1 }}
               >
                 <Page
                   pageNumber={i + 1}

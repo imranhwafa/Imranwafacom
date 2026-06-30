@@ -360,15 +360,36 @@
   .resume-footer-inner .rf-col.rf-r { text-align: left; }
   .resume-footer-actions { flex-direction: column; }
   .resume-footer-actions .resume-btn { width: 100%; }
+
+  /* The page sits in the space ABOVE the bottom bar, never under it. */
+  .resume-deck { top: 0; bottom: 130px; }
+
+  /* A compact bottom action bar — not a big card that covers the page. */
   .resume-panel {
     top: auto;
-    bottom: 84px;
-    right: 16px;
-    left: 16px;
+    bottom: 0;
+    left: 0;
+    right: 0;
     width: auto;
     max-width: none;
+    border-radius: 16px 16px 0 0;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    padding: 13px 16px calc(15px + env(safe-area-inset-bottom, 0px));
   }
-  .resume-dots { bottom: 20px; }
+  /* kicker + blurb are too much for the bar — keep just identity + actions */
+  .resume-panel-kicker,
+  .resume-panel-msg { display: none; }
+  .resume-panel-name { font-size: 17px; margin-bottom: 2px; }
+  .resume-panel-role { margin: 0 0 11px; }
+  .resume-panel-actions { flex-direction: row; gap: 10px; }
+  .resume-panel-actions .resume-btn { flex: 1; padding: 12px 8px; }
+
+  .resume-dots { bottom: 142px; }
   .resume-hint { display: none; }
   .resume-spec { display: none; }
+  /* on the footer, the floating dots are redundant with "Back to the pages"
+     and crowd the actions — hide them so all three buttons are reachable */
+  .resume-stage.footer-open .resume-dots { display: none; }
 }
