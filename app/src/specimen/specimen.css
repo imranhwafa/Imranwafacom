@@ -521,6 +521,25 @@ body::before {
 .tl-sub { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--ink-3); margin-top: 4px; text-transform: uppercase; }
 .tl-desc { font-size: 14px; color: var(--ink-2); line-height: 1.55; max-width: 44ch; }
 
+/* Upcoming (in-progress) certs — accent period + dashed marker + a badge */
+.tl-row-upcoming .tl-period { color: var(--accent); }
+.tl-row-upcoming { border-bottom-style: dashed; }
+.tl-badge {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in oklch, var(--accent) 30%, transparent);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
 /* Standalone resume timelines (Education / Certs / Experience) sit on
    their own beneath a section header, so drop the in-dossier top rule. */
 .timeline.timeline-solo { margin-top: 28px; padding-top: 0; border-top: none; }

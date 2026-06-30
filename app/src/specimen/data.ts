@@ -175,66 +175,68 @@ export const TAG_WEIGHTS: TagWeight[] = [
 ];
 
 export const SKILLS = [
-  { label: "Frontend", items: "React, TypeScript, Next.js, Tailwind, Framer Motion" },
-  { label: "Backend", items: "Node.js, Python, Express, REST, PostgreSQL" },
-  { label: "Data & AI", items: "Python, ML, LLMs, data pipelines" },
-  { label: "Design", items: "Figma, prototyping, design systems, motion" },
+  { label: "Operations", items: "NOC monitoring, incident response, SLA & uptime, on-call, Jira, runbooks" },
+  { label: "Systems & Networking", items: "Linux, TCP/IP, DNS, DHCP, switches & routers, monitoring & alerting" },
+  { label: "Data Center & Hardware", items: "Rack & stack, component diagnostics, cabling, RMA & lifecycle" },
+  { label: "Data & Reporting", items: "SQL, Python, Power BI, ETL/ELT, AWS, Snowflake, KPI dashboards" },
 ];
 
 // Resume entries — Education / Certs / Experience share one shape and
 // render through the same timeline-row component (see ResumeSection).
-export interface ResumeEntry { period: string; title: string; sub: string; desc: string }
+export interface ResumeEntry { period: string; title: string; sub: string; desc: string; upcoming?: boolean }
 
 export const EDUCATION: ResumeEntry[] = [
-  { period: "Ongoing", title: "B.S. Computer Science", sub: "Undergraduate", desc: "Still going. Classes are fine, the side projects are better — but the fundamentals stick." },
+  { period: "In progress", title: "B.S. Data Analytics", sub: "Undergraduate", desc: "Still going: the analytics track, where the statistics actually point at something useful." },
 ];
 
-// NOTE: split from the old combined "Certifications" line — rename each
-// to the exact credential title when you have them handy.
 export const CERTS: ResumeEntry[] = [
-  { period: "2021 — Now", title: "Google", sub: "Data & Analytics", desc: "Data-analytics track — the genuinely useful one. SQL, spreadsheets, and how to not lie with a chart." },
-  { period: "2021 — Now", title: "AWS", sub: "Cloud", desc: "Cloud fundamentals — compute, storage, and what all the acronyms actually mean." },
-  { period: "2021 — Now", title: "CompTIA", sub: "Core IT", desc: "Foundational IT. Some were genuinely useful, some were mostly for the piece of paper." },
+  { period: "Upcoming", title: "CCNA", sub: "Cisco · studying", desc: "Routing and switching for real: the cert that formalizes the network side of the NOC work.", upcoming: true },
+  { period: "Upcoming", title: "Network+", sub: "CompTIA · studying", desc: "Vendor-neutral networking, protocols, topologies, and troubleshooting, on paper this time.", upcoming: true },
+  { period: "Google", title: "IT Support / Data Analytics", sub: "Certificate", desc: "The genuinely useful track: SQL, dashboards, support fundamentals, and how to read data without fooling yourself." },
+  { period: "CompTIA", title: "Core IT & Hardware", sub: "Certificate", desc: "Foundational IT and component-level fundamentals, the stuff that earns its keep on a data-center floor." },
+  { period: "AI Academy", title: "AI & Machine Learning", sub: "Certificate", desc: "ML foundations: how models train, where they help, and where they quietly don't." },
+  { period: "Goldman Sachs", title: "Data", sub: "Certificate", desc: "Markets-grade data work, treating big, messy datasets like the decisions ride on them." },
+  { period: "JPMorgan", title: "Software Engineering", sub: "Certificate", desc: "Job-sim engineering: shipping against real specs, constraints, and reviews." },
 ];
 
 export const EXPERIENCE: ResumeEntry[] = [
-  { period: "2024 — Present", title: "DCO", sub: "Petromax · NCO", desc: "DCO at the NCO for Petromax — monitoring operations in real time, working DCO tickets through the day, and automating the repetitive parts so the queue stays sane." },
-  { period: "2021 — 2024", title: "Data Analyst & NCO", sub: "Instawire LLC", desc: "Built dashboards and charts to help the team actually understand their data. Lots of Excel. Moved into NCO work near the end." },
-  { period: "2020 — 2021", title: "Data Entry", sub: "MGT Well", desc: "Data entry and cleanup work. Not glamorous but I learned what bad data actually looks like up close." },
+  { period: "2024-2025", title: "Network / Database Ops", sub: "Petromax LLC · Washington, DC", desc: "Ran network and database infrastructure across multiple facilities in a 24/7 NOC: ~99.9% uptime, hands-on hardware and DB work, and incident response inside SLA. Built the monitoring and alerting that cut mean-time-to-detect ~30%, plus the dashboards and runbooks the rest of the shift leaned on." },
+  { period: "2021-2024", title: "Data Analyst", sub: "Instawire LLC · McLean, VA", desc: "Federal anti-money-laundering work: combed $2B+ in daily transactions for anomalies, duplicates, and suspicious patterns. Power BI dashboards for triage and clustering logic that bumped duplicate-detection accuracy ~23%, plus data-quality builds across credit and behavioral datasets." },
+  { period: "2020-2021", title: "Data Specialist", sub: "Mgtwell LLC · Alexandria, VA", desc: "Processed large-scale datasets and built the ETL plus automated cleansing and dedup that kept reporting honest. Learned exactly what bad data looks like up close, and how to fix it at the source." },
 ];
 
 export const CONTACTS = [
   { num: "01", name: "GitHub", desc: "where the actual code lives", href: "https://github.com/imranhwafa" },
   { num: "02", name: "LinkedIn", desc: "the formal version of me", href: "https://www.linkedin.com/in/imran-w-9741082a3" },
-  { num: "03", name: "Email", desc: "hit me up — I check it", href: "mailto:contact@imranwafa.com" },
-  { num: "04", name: "Phone", desc: "+1 (253) 292-4570", href: "tel:+12532924570" },
+  { num: "03", name: "Email", desc: "hit me up, I check it", href: "mailto:contact@imranwafa.com" },
+  { num: "04", name: "Phone", desc: "+1 (703) 364-9357", href: "tel:+17033649357" },
 ];
 
 // ── Capability profile (radar) — 0..1 per axis ──────────────
 export interface RadarAxis { axis: string; value: number }
 export const RADAR_SKILLS: RadarAxis[] = [
-  { axis: "Frontend", value: 0.93 },
-  { axis: "Backend", value: 0.80 },
-  { axis: "Data / AI", value: 0.76 },
-  { axis: "Design", value: 0.71 },
-  { axis: "Systems", value: 0.58 },
-  { axis: "DevOps", value: 0.54 },
+  { axis: "Operations", value: 0.90 },
+  { axis: "Data / BI", value: 0.86 },
+  { axis: "Networking", value: 0.80 },
+  { axis: "Automation", value: 0.78 },
+  { axis: "Hardware", value: 0.70 },
+  { axis: "Cloud", value: 0.64 },
 ];
 
 // ── Annual targets (radial gauges) ──────────────────────────
 export interface Gauge { label: string; value: number; unit: string; digits?: number }
 export const GAUGES: Gauge[] = [
-  { label: "Ship rate", value: 86, unit: "%" },
-  { label: "Test coverage", value: 78, unit: "%" },
-  { label: "Uptime", value: 99.2, unit: "%", digits: 1 },
-  { label: "Focus time", value: 64, unit: "%" },
+  { label: "Uptime", value: 99.9, unit: "%", digits: 1 },
+  { label: "SLA met", value: 98, unit: "%" },
+  { label: "MTTD cut", value: 30, unit: "%" },
+  { label: "Auto-resolved", value: 64, unit: "%" },
 ];
 
 // ── Time allocation (waffle, sums to 100) ───────────────────
 export interface WaffleSlice { label: string; value: number; color: string }
 export const TIME_ALLOC: WaffleSlice[] = [
-  { label: "Code", value: 46, color: "var(--accent)" },
-  { label: "Data", value: 22, color: "oklch(0.72 0.16 95)" },
-  { label: "Design", value: 18, color: "oklch(0.62 0.18 250)" },
-  { label: "Ship / ops", value: 14, color: "oklch(0.62 0.16 25)" },
+  { label: "Monitoring / ops", value: 40, color: "var(--accent)" },
+  { label: "Data & reporting", value: 28, color: "oklch(0.72 0.16 95)" },
+  { label: "Automation", value: 20, color: "oklch(0.62 0.18 250)" },
+  { label: "Docs & handoff", value: 12, color: "oklch(0.62 0.16 25)" },
 ];

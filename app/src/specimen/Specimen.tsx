@@ -648,10 +648,10 @@ function ResumeSection({ id, num, hint, segments, meta, rows }: ResumeSectionPro
         <div className="timeline timeline-solo">
           <Stagger step={80}>
             {rows.map((t, i) => (
-              <Tap as="div" key={i} className="tl-row" msg={[`${t.period} — ${t.title}.`, t.desc]}>
+              <Tap as="div" key={i} className={`tl-row${t.upcoming ? " tl-row-upcoming" : ""}`} msg={[`${t.period} — ${t.title}.`, t.desc]}>
                 <div className="tl-period">{t.period}</div>
                 <div>
-                  <div className="tl-title">{t.title}</div>
+                  <div className="tl-title">{t.title}{t.upcoming && <span className="tl-badge">upcoming</span>}</div>
                   <div className="tl-sub">{t.sub}</div>
                 </div>
                 <div className="tl-desc">{t.desc}</div>
