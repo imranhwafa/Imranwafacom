@@ -222,12 +222,12 @@ function Hero() {
             segments={COPY.hero.tagline}
           />
         </Parallax>
-        <Parallax as="div" speed={0.12}>
+        <Parallax as="div" speed={0.03}>
           <Reveal className="dosier" delay={1800}>
             {COPY.hero.dosierLeft.map((r) => <DosierRow key={r.k} row={r} />)}
           </Reveal>
         </Parallax>
-        <Parallax as="div" speed={0.17}>
+        <Parallax as="div" speed={0.03}>
           <Reveal className="dosier" delay={1950}>
             {COPY.hero.dosierRight.map((r) => <DosierRow key={r.k} row={r} />)}
             <Tap as="div" className="row" ripple={false} onTap={() => {
@@ -241,11 +241,11 @@ function Hero() {
       </div>
 
       <Parallax as="div" className="kpi-strip" speed={0.03}>
-        <Stat label={COPY.hero.kpis[0].label} value={PROJECTS.length} unit={COPY.hero.kpis[0].unit} trend={[1, 2, 3, 4, 5, 6]} delta={50} />
-        <Stat label={COPY.hero.kpis[1].label} value={(TOTALS.loc / 1000).toFixed(1)} unit={COPY.hero.kpis[1].unit} trend={[10, 18, 24, 28, 32, 35]} delta={12} />
-        <Stat label={COPY.hero.kpis[2].label} value={TOTALS.commits} unit={COPY.hero.kpis[2].unit} trend={[40, 90, 140, 200, 260, TOTALS.commits]} delta={18} />
-        <Stat label={COPY.hero.kpis[3].label} value={TOTALS.stars} unit={COPY.hero.kpis[3].unit} trend={[5, 12, 28, 46, 72, TOTALS.stars]} delta={24} />
-        <Stat label={COPY.hero.kpis[4].label} value={COPY.hero.kpis[4].value} unit={COPY.hero.kpis[4].unit} trend={[1, 2, 3, 4, 5, 5]} />
+        <Stat label={COPY.hero.kpis[0].label} value={99.9} unit={COPY.hero.kpis[0].unit} digits={1} trend={[99.2, 99.5, 99.7, 99.8, 99.9, 99.9]} />
+        <Stat label={COPY.hero.kpis[1].label} value={30} unit={COPY.hero.kpis[1].unit} trend={[8, 14, 20, 26, 30, 30]} />
+        <Stat label={COPY.hero.kpis[2].label} value={COPY.hero.kpis[2].value} unit={COPY.hero.kpis[2].unit} trend={[1.0, 1.3, 1.6, 1.8, 1.9, 2.0]} />
+        <Stat label={COPY.hero.kpis[3].label} value={23} unit={COPY.hero.kpis[3].unit} trend={[6, 10, 14, 18, 21, 23]} />
+        <Stat label={COPY.hero.kpis[4].label} value={5} unit={COPY.hero.kpis[4].unit} trend={[1, 2, 3, 4, 5, 5]} />
       </Parallax>
     </section>
   );
