@@ -1,0 +1,374 @@
+/* ============================================================
+   RESUME READER — premium PDF deck
+   Inherits the specimen design tokens (--paper / --ink / --accent…)
+   ============================================================ */
+
+.resume-stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  /* paper sits in 3D so sheets can tilt as they lift off the deck */
+  perspective: 1800px;
+}
+
+.resume-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  /* the dot-field stays quiet behind the document so it never fights the text */
+  opacity: 0.6;
+}
+
+/* ── the deck ───────────────────────────────────────────── */
+.resume-deck {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  transform-style: preserve-3d;
+  pointer-events: none; /* let wheel/scroll pass to the stage */
+}
+
+.resume-deck > div { /* react-pdf Document wrapper */
+  display: grid;
+  place-items: center;
+}
+
+.resume-sheet {
+  grid-area: 1 / 1;
+  transform-origin: top center;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow:
+    0 1px 1px oklch(0.16 0.012 264 / 0.10),
+    0 18px 50px -12px oklch(0.16 0.012 264 / 0.34);
+  will-change: transform, opacity;
+}
+
+.resume-sheet canvas {
+  display: block;
+  border-radius: 3px;
+}
+
+.resume-status {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink-3);
+  letter-spacing: 0.01em;
+  text-align: center;
+  padding: 40px;
+}
+.resume-status-err { color: oklch(0.55 0.20 25); max-width: 360px; }
+.resume-status-err code {
+  font-family: var(--mono);
+  background: var(--paper-2);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ── specimen type label (left) ─────────────────────────── */
+.resume-spec {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  z-index: 30;
+  width: 232px;
+  padding: 20px 20px 16px;
+  background: oklch(0.985 0.001 250 / 0.74);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  box-shadow: 0 14px 44px -18px oklch(0.16 0.012 264 / 0.42);
+}
+
+.resume-spec-mark {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--ink-3);
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.resume-spec-glyph {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 14px 0 16px;
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 48px;
+  line-height: 0.9;
+  color: var(--accent);
+}
+.resume-spec-glyph-cap {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.resume-spec-rows {
+  display: flex;
+  flex-direction: column;
+  padding: 14px 0 6px;
+}
+.resume-spec-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 2;
+}
+.resume-spec-row > span:first-child {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+.resume-spec-row > span:last-child { color: var(--ink-2); text-align: right; }
+
+.resume-spec-foot {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+
+/* ── floating info panel ────────────────────────────────── */
+.resume-panel {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  z-index: 30;
+  width: 320px;
+  max-width: calc(100vw - 48px);
+  padding: 22px 22px 20px;
+  background: oklch(0.985 0.001 250 / 0.78);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  box-shadow: 0 14px 44px -18px oklch(0.16 0.012 264 / 0.42);
+}
+
+.resume-panel-kicker {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--ink-3);
+  margin-bottom: 10px;
+}
+
+.resume-panel-name {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 21px;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.resume-panel-it { font-style: italic; color: var(--accent); font-weight: 400; }
+
+.resume-panel-role {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-3);
+  margin: -4px 0 14px;
+}
+
+.resume-panel-msg {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin-bottom: 18px;
+}
+
+.resume-panel-actions { display: flex; flex-direction: column; gap: 9px; }
+
+.resume-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 11px 14px;
+  border-radius: 9px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+  text-decoration: none;
+}
+.resume-btn:active { transform: translateY(1px); }
+
+.resume-btn-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 6px 18px -8px var(--accent);
+}
+.resume-btn-primary:hover { box-shadow: 0 10px 26px -8px var(--accent); transform: translateY(-1px); }
+
+.resume-btn-ghost {
+  background: transparent;
+  color: var(--ink-2);
+  border-color: var(--rule-strong);
+}
+.resume-btn-ghost:hover { background: var(--paper-2); color: var(--ink); }
+
+/* ── page dots ──────────────────────────────────────────── */
+.resume-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 13px;
+  background: oklch(0.985 0.001 250 / 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+}
+.resume-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: var(--rule-strong);
+  transition: width 0.32s cubic-bezier(0.22,1,0.36,1), background 0.32s ease;
+}
+.resume-dot:hover { background: var(--ink-3); }
+.resume-dot.is-active { width: 24px; background: var(--accent); }
+
+/* divider between the page dots and the footer option */
+.resume-dots-sep {
+  width: 1px;
+  height: 12px;
+  background: var(--rule-strong);
+  margin: 0 2px;
+}
+/* the footer is the third slider option — a short bar, not a round page dot */
+.resume-dot-footer { width: 16px; height: 6px; border-radius: 3px; }
+.resume-dot-footer.is-active { width: 22px; height: 6px; background: var(--accent); }
+
+/* ── hints / transitions ────────────────────────────────── */
+.resume-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 64px;
+  transform: translateX(-50%);
+  z-index: 30;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+  pointer-events: none;
+}
+
+.resume-leaving {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  font-family: var(--serif);
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 500;
+  color: var(--ink);
+  pointer-events: none;
+}
+.resume-leaving-it { font-style: italic; color: var(--accent); font-weight: 400; }
+
+/* ── footer (revealed after the last page) ──────────────── */
+.resume-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 35;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 40px;
+  padding: 80px clamp(28px, 8vw, 120px);
+  background: var(--paper);
+  border-top: 1px solid var(--rule-strong);
+  pointer-events: none;
+}
+.resume-footer.is-open { pointer-events: auto; }
+
+.resume-footer-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+}
+.rf-col { display: flex; flex-direction: column; gap: 8px; font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); }
+.rf-col.rf-r { text-align: right; }
+.rf-big {
+  font-family: var(--serif);
+  font-size: 24px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.rf-col a { color: var(--ink-2); text-decoration: none; transition: color 140ms; }
+.rf-col a:hover { color: var(--accent); }
+
+.resume-footer-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+}
+.resume-footer-actions .resume-btn { width: auto; min-width: 180px; }
+
+@media (max-width: 640px) {
+  .resume-footer { padding: 64px 24px; gap: 32px; }
+  .resume-footer-inner { grid-template-columns: 1fr; gap: 24px; }
+  .resume-footer-inner .rf-col.rf-r { text-align: left; }
+  .resume-footer-actions { flex-direction: column; }
+  .resume-footer-actions .resume-btn { width: 100%; }
+  .resume-panel {
+    top: auto;
+    bottom: 84px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    max-width: none;
+  }
+  .resume-dots { bottom: 20px; }
+  .resume-hint { display: none; }
+  .resume-spec { display: none; }
+}
