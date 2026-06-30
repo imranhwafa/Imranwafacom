@@ -23,6 +23,14 @@ pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
 const FLIP_LOCK = 460; // ms between page flips — tames trackpad inertia
 
+// Page width tracks the viewport. Phones get a wider fraction (no side panels)
+// and are capped a touch shorter so the sheet fits above the bottom bar.
+function calcPageW() {
+  const vw = window.innerWidth;
+  if (vw <= 640) return Math.min(vw * 0.9, (window.innerHeight - 150) / 1.3);
+  return Math.min(vw * 0.82, 760);
+}
+
 export default function Resume() {
   const navigate = useNavigate();
   const reduce = useReducedMotion();
@@ -33,12 +41,12 @@ export default function Resume() {
   // The footer only becomes reachable once you've flipped to the last page and
   // keep scrolling — until then the deck owns the scroll.
   const [showFooter, setShowFooter] = useState(false);
-  const [pageW, setPageW] = useState(() => Math.min(window.innerWidth * 0.82, 760));
+  const [pageW, setPageW] = useState(calcPageW);
   const lock = useRef(false);
 
-  // Page width tracks the viewport so the sheet stays readable on any screen.
+  // Keep the sheet sized to the viewport on rotate/resize.
   useEffect(() => {
-    const onResize = () => setPageW(Math.min(window.innerWidth * 0.82, 760));
+    const onResize = () => setPageW(calcPageW());
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, []);
@@ -100,7 +108,7 @@ export default function Resume() {
 
   return (
     <div
-      className="resume-stage"
+      className={`resume-stage${showFooter ? ' footer-open' : ''}`}
       onWheel={onWheel}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
