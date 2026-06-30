@@ -8,6 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://imranwafa.dev'),
   title: 'Imran Wafa | Portfolio',
   description: 'Hi, I\'m Imran. I build things. Connect with me through this interactive iMessage-style portfolio.',
   keywords: ['Imran Wafa', 'portfolio', 'developer', 'software engineer', 'web developer'],

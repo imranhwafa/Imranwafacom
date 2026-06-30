@@ -7,7 +7,7 @@ import { Suspense } from 'react';
 const ChatContainer = dynamic(() => import('@/components/ChatContainer'), {
   ssr: false,
   loading: () => (
-    <div className="flex items-center justify-center h-screen bg-white dark:bg-black">
+    <div className="flex items-center justify-center h-screen bg-transparent">
       <div className="flex flex-col items-center gap-4">
         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-xl animate-pulse">
           IW
@@ -23,7 +23,7 @@ export default function Home() {
     <main className="min-h-screen">
       <Suspense
         fallback={
-          <div className="flex items-center justify-center h-screen bg-white dark:bg-black">
+          <div className="flex items-center justify-center h-screen bg-transparent">
             <div className="flex flex-col items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-xl animate-pulse">
                 IW
