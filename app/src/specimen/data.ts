@@ -76,6 +76,36 @@ export const PROJECTS: Project[] = [
     metrics: { loc: 2400, commits: 58, stars: 7, files: 18, deps: 9 },
     trend: [1, 2, 3, 4, 5, 5, 6, 6, 7, 7],
   },
+  {
+    n: "07", title: "Home Lab",
+    desc: "A Proxmox box at home running the VMs and containers I use to break things safely.",
+    long: "Proxmox host running a stack of VMs and LXC containers: Linux servers, monitoring, the *arr stack, a few services behind a reverse proxy. Where I test anything before it touches something that matters. Most of what I know about ops, I learned here first.",
+    tags: ["Proxmox", "Linux", "Docker", "Homelab"],
+    year: "2025", status: "running", type: "Homelab / Infra",
+    link: "https://github.com/imranhwafa",
+    metrics: { loc: 3400, commits: 210, stars: 0, files: 64, deps: 0 },
+    trend: [2, 4, 6, 8, 10, 12, 14, 16, 18, 21],
+  },
+  {
+    n: "08", title: "NAS",
+    desc: "A TrueNAS build that holds everything and has yet to lose a byte.",
+    long: "TrueNAS on a ZFS pool: snapshots, scheduled scrubs, and replication so the backups have backups. Serves media, file shares, and storage for the homelab. Quiet, boring, and exactly how storage should be.",
+    tags: ["TrueNAS", "ZFS", "Storage", "Homelab"],
+    year: "2024", status: "running", type: "Homelab / Storage",
+    link: "https://github.com/imranhwafa",
+    metrics: { loc: 1200, commits: 88, stars: 0, files: 22, deps: 0 },
+    trend: [1, 2, 3, 4, 5, 6, 7, 8, 8, 9],
+  },
+  {
+    n: "09", title: "Home Network",
+    desc: "VLANs, a real firewall, and monitoring so I actually know when something is wrong.",
+    long: "Segmented home network: VLANs for trust boundaries, a proper firewall, DNS-level filtering, and monitoring with alerting. The lab I actually run my own runbooks against, which is how the work ones got good.",
+    tags: ["Networking", "pfSense", "VLAN", "Homelab"],
+    year: "2024", status: "running", type: "Homelab / Network",
+    link: "https://github.com/imranhwafa",
+    metrics: { loc: 800, commits: 64, stars: 0, files: 14, deps: 0 },
+    trend: [1, 2, 3, 4, 4, 5, 6, 6, 7, 7],
+  },
 ];
 
 // Aggregate analytics
