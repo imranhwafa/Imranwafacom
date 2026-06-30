@@ -81,7 +81,7 @@ export function InteractiveBG() {
       build(); readColors();
     }
 
-    const R = 190, R2 = R * R;
+    const R = 300, R2 = R * R;
 
     function physics(now: number) {
       mx += (tmx - mx) * 0.22;
@@ -102,8 +102,8 @@ export function InteractiveBG() {
         if (dd2 < R2) {
           const dist = Math.sqrt(dd2) || 0.001;
           const f = 1 - dist / R, fe = f * f;
-          fx += (dx / dist) * fe * 1.9;
-          fy += (dy / dist) * fe * 1.9;
+          fx += (dx / dist) * fe * 2.4;
+          fy += (dy / dist) * fe * 2.4;
           const cross = (pvx * dy - pvy * dx) > 0 ? 1 : -1;
           fx += (-dy / dist) * fe * swirlK * 2.6 * cross;
           fy += (dx / dist) * fe * swirlK * 2.6 * cross;
