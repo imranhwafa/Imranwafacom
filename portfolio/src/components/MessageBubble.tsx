@@ -61,12 +61,12 @@ export default function MessageBubble({
       <div className={`flex flex-col ${message.isUser ? 'items-end' : 'items-start'} max-w-[75%]`}>
         {/* Bubble */}
         <div
-          className={`relative px-4 py-2.5 text-[15px] leading-relaxed shadow-sm ${
+          className={`relative px-4 py-2.5 text-[15px] leading-relaxed transition-all duration-300 ${
             message.isUser
-              ? 'bg-[#007AFF] text-white rounded-[20px] rounded-br-[8px]'
+              ? 'bg-gradient-to-br from-[#007AFF] to-[#0056b3] text-white rounded-[20px] rounded-br-[8px] shadow-[0_4px_14px_rgba(0,122,255,0.25),inset_0_2px_4px_rgba(255,255,255,0.2)] border border-blue-400/20 glass-noise'
               : isLink
-              ? 'bg-[#E9E9EB] dark:bg-[#2C2C2E] text-black dark:text-white rounded-[20px] rounded-bl-[8px] border border-gray-200 dark:border-gray-700'
-              : 'bg-[#E9E9EB] dark:bg-[#2C2C2E] text-black dark:text-white rounded-[20px] rounded-bl-[8px]'
+              ? 'bg-white/60 dark:bg-[#2C2C2E]/60 backdrop-blur-xl text-black dark:text-white rounded-[20px] rounded-bl-[8px] border border-white/40 dark:border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.04),inset_0_1px_1px_rgba(255,255,255,0.4)] glass-noise'
+              : 'bg-white/60 dark:bg-[#2C2C2E]/60 backdrop-blur-xl text-black dark:text-white rounded-[20px] rounded-bl-[8px] border border-white/40 dark:border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.04),inset_0_1px_1px_rgba(255,255,255,0.4)] glass-noise'
           }`}
         >
           {isLink ? (
@@ -110,10 +110,13 @@ export default function MessageBubble({
                     stiffness: 400,
                     damping: 25,
                   }}
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  className="block w-full bg-white dark:bg-[#2C2C2E] rounded-xl overflow-hidden shadow-md border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow cursor-pointer"
+                  className="group relative block w-full bg-white/60 dark:bg-[#2C2C2E]/60 backdrop-blur-xl rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-white/40 dark:border-white/10 hover:shadow-[0_8px_30px_rgba(0,0,0,0.08)] transition-all duration-300 cursor-pointer glass-noise"
                 >
+                  {/* Shimmer Sheen Layer */}
+                  <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-white/20 to-transparent group-hover:animate-shimmer z-20 pointer-events-none" />
+
                   {/* Preview Image / Icon Area */}
                   <div className={`${bgColor} h-14 flex items-center justify-center relative`}>
                     <Icon className="w-7 h-7 text-white" />
@@ -141,19 +144,23 @@ export default function MessageBubble({
         {/* Status indicators */}
         {message.isUser && isLastInGroup && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="flex items-center gap-1 mt-1 px-1"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, type: 'spring', stiffness: 300, damping: 20 }}
+            className="flex items-center gap-1.5 mt-1.5 px-1"
           >
-            <span className="text-[10px] text-gray-400 dark:text-gray-500">
+            <span className="text-[10px] tracking-widest uppercase font-medium text-gray-400 dark:text-gray-500/80">
               {formatTime(message.timestamp)}
             </span>
             {message.status === 'delivered' && (
-              <Check className="w-3 h-3 text-gray-400 dark:text-gray-500" />
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 500, damping: 25 }}>
+                <Check className="w-3.5 h-3.5 text-gray-400/80 dark:text-gray-500" strokeWidth={2.5} />
+              </motion.div>
             )}
             {message.status === 'read' && (
-              <CheckCheck className="w-3 h-3 text-[#007AFF]" />
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 500, damping: 25 }}>
+                <CheckCheck className="w-3.5 h-3.5 text-[#007AFF]" strokeWidth={2.5} />
+              </motion.div>
             )}
           </motion.div>
         )}

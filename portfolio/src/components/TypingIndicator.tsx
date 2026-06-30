@@ -25,7 +25,7 @@ export default function TypingIndicator({ showAvatar = true }: TypingIndicatorPr
       {!showAvatar && <div className="w-8 flex-shrink-0" />}
 
       {/* Typing Dots */}
-      <div className="bg-[#E9E9EB] dark:bg-[#2C2C2E] rounded-[20px] rounded-bl-[8px] px-4 py-3.5 shadow-sm">
+      <div className="bg-white/60 dark:bg-[#2C2C2E]/60 backdrop-blur-xl rounded-[20px] rounded-bl-[8px] px-4 py-3.5 shadow-[0_4px_24px_rgba(0,0,0,0.04)] border border-white/40 dark:border-white/10">
         <div className="flex items-center gap-1">
           {[0, 1, 2].map((index) => (
             <motion.div

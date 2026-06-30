@@ -8,44 +8,129 @@
     ██║██║ ╚═╝ ██║██║  ██║██║  ██║██║ ╚████║
     ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
 
-    👀 Hey, you're looking at my source code!
-    No worries — I keep it open source.
+    Hey, you're looking at my source code!
+    No worries I keep it open source.
 
-    🔗 Check out the full repo:
-       https://github.com/imranwafa-com
+    Check out the full repo:
+    https://github.com/imranwafa-com
 
     Built with React, TypeScript, Framer Motion,
-    and a lot of late nights ☕
+    and a lot of late nights
 
-    If you're a recruiter... yes, I wrote this myself 😄
+    If you're a recruiter... yes, I mostly wrote this myself
     If you're a dev... PRs welcome!
 
 -->
-<html lang="en">
+<html lang="en" data-theme="paper">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Imran Wafa — Builder, developer, and creative technologist. Explore my work and get in touch." />
-  <meta name="theme-color" content="#0a0a0f" />
-  <title>Imran Wafa</title>
+    content="Imran Wafa · Operations technician across network, database, and data analytics. 24/7 NOC monitoring, infrastructure, and data-quality engineering. Explore my work and get in touch." />
+  <meta name="theme-color" content="#fbfbfc" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="apple-touch-icon" href="./favicon.svg" />
+  <link rel="manifest" href="./manifest.json" />
+  <title>Imran Wafa · A Specimen Sheet</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200;12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Pacifico&display=swap"
-    rel="stylesheet" />
-  <script type="module" crossorigin src="./assets/index-0fKfnBxh.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-yTf-zeZs.css">
+  <!-- Only the three always-used families are in the critical path; the
+       experiment fonts (Archivo, Familjen Grotesk, Syne) are
+       lazy-loaded on demand by ensureFontLoaded() in motion.tsx. -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" />
+  </noscript>
+  <script type="module" crossorigin src="./assets/index-D1uQG7zQ.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/vendor-core-Bmy4nI93.js">
+  <link rel="modulepreload" crossorigin href="./assets/vendor-react-D6viq0yr.js">
+  <link rel="modulepreload" crossorigin href="./assets/vendor-motion-bxPitwte.js">
+  <link rel="stylesheet" crossorigin href="./assets/index-D1hwBGwm.css">
 </head>
 
 <body>
-  <!-- 🤫 You found the secret layer. Go check the console too ;) -->
+  <!--  You found the secret layer. Go check the console too ;) -->
   <div id="root"></div>
+
+  <!-- Slow-load fallback (JS on, but slow connection): if the app hasn't booted
+       within 3s, show a tiny critical hero + contact so the page is never blank.
+       main.tsx sets window.__appReady on boot and removes the .slow class. -->
+  <style>
+    html { background: #fbfbfc; color: #16161a; }
+
+    #root { transition: opacity 0.5s ease; opacity: 1; }
+    html.slow #root { opacity: 0 !important; pointer-events: none; }
+
+    #lite {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 24px; opacity: 0; pointer-events: none;
+      transition: opacity 0.4s ease;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    html.slow #lite { opacity: 1; pointer-events: auto; }
+
+    .lite-inner { max-width: 640px; width: 100%; }
+    .lite-inner .mono {
+      font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6; margin-bottom: 24px;
+    }
+    .lite-inner h1 {
+      font-size: clamp(48px, 10vw, 88px); line-height: 0.95; letter-spacing: -0.04em;
+      margin: 0; font-weight: 500;
+    }
+    .lite-inner h1 em { font-style: italic; color: #5064ff; font-weight: 400; }
+
+    .lite-inner p {
+      font-size: 18px; opacity: 0.7; margin: 24px 0 32px; max-width: 48ch; line-height: 1.5;
+    }
+    .lite-links { display: flex; gap: 24px; flex-wrap: wrap; }
+    .lite-links a {
+      font-size: 15px; color: inherit; text-decoration: none;
+      border-bottom: 1px solid rgba(128,128,128,0.3); padding-bottom: 2px; transition: border-color 0.2s;
+    }
+    .lite-links a:hover { border-bottom-color: currentColor; }
+  </style>
+  <div id="lite" aria-hidden="true">
+    <div class="lite-inner">
+      <div class="mono">Imran Wafa · specimen sheet</div>
+      <h1>I build<br><em>things.</em></h1>
+      <p id="lite-msg">One sec, the full interactive version is still loading. Here are the essentials in the meantime.</p>
+      <div class="lite-links">
+        <a href="mailto:contact@imranwafa.com">contact@imranwafa.com</a>
+        <a href="https://github.com/imranwafa-com">GitHub</a>
+        <a href="https://www.linkedin.com/in/imran-w-9741082a3">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 3s: still not booted → show the lightweight critical version.
+    setTimeout(function () {
+      if (!window.__appReady) document.documentElement.classList.add('slow');
+    }, 3000);
+    // 6s: still not booted → add a second line below the first so it doesn't feel stuck.
+    setTimeout(function () {
+      var first = document.getElementById('lite-msg');
+      if (!window.__appReady && first && !document.getElementById('lite-msg2')) {
+        var m2 = document.createElement('p');
+        m2.id = 'lite-msg2';
+        m2.textContent = "Almost there, one more minute. Thanks for hanging on.";
+        first.insertAdjacentElement('afterend', m2);
+      }
+    }, 6000);
+  </script>
   <noscript>
     <style>
       /* Reset */
-      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
       body {
         font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -57,14 +142,42 @@
       }
 
       @media (prefers-color-scheme: dark) {
-        body { background: #0a0a14; color: #e0e4f0; }
-        .noscript-card { background: rgba(255,255,255,0.04) !important; border-color: rgba(255,255,255,0.08) !important; }
-        .noscript-header { border-color: rgba(255,255,255,0.06) !important; }
-        .noscript-tag { background: rgba(103,232,249,0.08) !important; color: #67e8f9 !important; }
-        .noscript-section-title { color: #67e8f9 !important; }
-        .noscript-timeline-dot { background: #67e8f9 !important; }
-        .noscript-link { color: #60a5fa !important; }
-        .noscript-banner { background: rgba(103,232,249,0.06) !important; border-color: rgba(103,232,249,0.15) !important; color: #67e8f9 !important; }
+        body {
+          background: #0a0a14;
+          color: #e0e4f0;
+        }
+
+        .noscript-card {
+          background: rgba(255, 255, 255, 0.04) !important;
+          border-color: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .noscript-header {
+          border-color: rgba(255, 255, 255, 0.06) !important;
+        }
+
+        .noscript-tag {
+          background: rgba(103, 232, 249, 0.08) !important;
+          color: #67e8f9 !important;
+        }
+
+        .noscript-section-title {
+          color: #67e8f9 !important;
+        }
+
+        .noscript-timeline-dot {
+          background: #67e8f9 !important;
+        }
+
+        .noscript-link {
+          color: #60a5fa !important;
+        }
+
+        .noscript-banner {
+          background: rgba(103, 232, 249, 0.06) !important;
+          border-color: rgba(103, 232, 249, 0.15) !important;
+          color: #67e8f9 !important;
+        }
       }
 
       .noscript-container {
@@ -78,8 +191,8 @@
         padding: 16px 24px;
         margin-bottom: 40px;
         border-radius: 12px;
-        background: rgba(103,232,249,0.06);
-        border: 1px solid rgba(103,232,249,0.15);
+        background: rgba(103, 232, 249, 0.06);
+        border: 1px solid rgba(103, 232, 249, 0.15);
         font-size: 14px;
         color: #475569;
         line-height: 1.5;
@@ -89,7 +202,7 @@
         text-align: center;
         padding-bottom: 32px;
         margin-bottom: 32px;
-        border-bottom: 1px solid rgba(0,0,0,0.06);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
       }
 
       .noscript-header h1 {
@@ -119,7 +232,9 @@
         font-weight: 500;
       }
 
-      .noscript-link:hover { text-decoration: underline; }
+      .noscript-link:hover {
+        text-decoration: underline;
+      }
 
       .noscript-section {
         margin-bottom: 36px;
@@ -136,8 +251,8 @@
       }
 
       .noscript-card {
-        background: rgba(0,0,0,0.02);
-        border: 1px solid rgba(0,0,0,0.06);
+        background: rgba(0, 0, 0, 0.02);
+        border: 1px solid rgba(0, 0, 0, 0.06);
         border-radius: 12px;
         padding: 20px;
         margin-bottom: 12px;
@@ -166,7 +281,7 @@
         font-size: 11px;
         padding: 3px 10px;
         border-radius: 999px;
-        background: rgba(59,130,246,0.08);
+        background: rgba(59, 130, 246, 0.08);
         color: #3b82f6;
         font-weight: 500;
       }
@@ -178,12 +293,14 @@
       }
 
       @media (max-width: 500px) {
-        .noscript-skills-grid { grid-template-columns: 1fr; }
+        .noscript-skills-grid {
+          grid-template-columns: 1fr;
+        }
       }
 
       .noscript-skill-card {
-        background: rgba(0,0,0,0.02);
-        border: 1px solid rgba(0,0,0,0.06);
+        background: rgba(0, 0, 0, 0.02);
+        border: 1px solid rgba(0, 0, 0, 0.06);
         border-radius: 12px;
         padding: 16px;
       }
@@ -234,27 +351,38 @@
         text-align: center;
         margin-top: 48px;
         padding-top: 24px;
-        border-top: 1px solid rgba(0,0,0,0.06);
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
         font-size: 12px;
         color: #94a3b8;
       }
 
       @media print {
-        .noscript-banner { display: none; }
-        body { background: white; color: black; padding: 0; }
-        .noscript-container { padding: 0; max-width: none; }
+        .noscript-banner {
+          display: none;
+        }
+
+        body {
+          background: white;
+          color: black;
+          padding: 0;
+        }
+
+        .noscript-container {
+          padding: 0;
+          max-width: none;
+        }
       }
     </style>
 
     <div class="noscript-container">
       <div class="noscript-banner">
-        hey, i promise i'm not stealing your data — no need to keep javascript off 😄<br/>
+        hey, i promise i'm not stealing your data, no need to keep javascript off 😄<br />
         but since you're here, here's my site as a good old-fashioned resume. no frameworks harmed.
       </div>
 
       <header class="noscript-header">
         <h1>Imran Wafa</h1>
-        <p>Builder, developer, and creative technologist</p>
+        <p>Operations technician: network, database &amp; data analytics</p>
         <div class="noscript-links">
           <a href="https://github.com/imranwafa-com" class="noscript-link">GitHub</a>
           <a href="https://www.linkedin.com/in/imran-w-9741082a3" class="noscript-link">LinkedIn</a>
@@ -265,7 +393,11 @@
       <section class="noscript-section">
         <div class="noscript-section-title">About</div>
         <p style="font-size:14px;color:#64748b;line-height:1.7;">
-          I am a data analyst and developer who loves creating things that matter. I believe the best software is built at the intersection of thoughtful design and solid engineering. When I'm not coding, you'll find me messing with hardware, tearing down an engine, or figuring out how to automate something that probably didn't need to be automated (but it's cooler now).
+          I'm an operations technician with 5+ years across network and database operations, 24/7 infrastructure
+          monitoring, and data-quality engineering, keeping mission-critical systems up to strict uptime and SLA
+          targets, then turning the data into dashboards people can act on. When I'm not watching a NOC queue, you'll
+          find me messing with hardware, tearing down an engine, or automating something that probably didn't need to
+          be automated (but it's cooler now).
         </p>
       </section>
 
@@ -273,20 +405,20 @@
         <div class="noscript-section-title">Skills</div>
         <div class="noscript-skills-grid">
           <div class="noscript-skill-card">
-            <h4>Frontend</h4>
-            <p>React, TypeScript, Next.js, Tailwind CSS, Framer Motion</p>
+            <h4>Operations</h4>
+            <p>NOC monitoring, incident response, SLA &amp; uptime, on-call, Jira, runbooks</p>
           </div>
           <div class="noscript-skill-card">
-            <h4>Backend</h4>
-            <p>Node.js, Python, Express, REST APIs, PostgreSQL</p>
+            <h4>Systems &amp; Networking</h4>
+            <p>Linux, TCP/IP, DNS, DHCP, switches &amp; routers, monitoring &amp; alerting</p>
           </div>
           <div class="noscript-skill-card">
-            <h4>Design</h4>
-            <p>Figma, UI/UX, Prototyping, Design Systems, Animation</p>
+            <h4>Data Center &amp; Hardware</h4>
+            <p>Rack &amp; stack, component diagnostics, cabling, RMA &amp; lifecycle</p>
           </div>
           <div class="noscript-skill-card">
-            <h4>Data & AI</h4>
-            <p>Python, Data Analysis, Machine Learning, AI, LLMs</p>
+            <h4>Data &amp; Reporting</h4>
+            <p>SQL, Python, Power BI, ETL/ELT, AWS, Snowflake, KPI dashboards</p>
           </div>
         </div>
       </section>
@@ -328,33 +460,41 @@
         <div class="noscript-timeline-item">
           <div class="noscript-timeline-dot"></div>
           <div class="noscript-timeline-content">
-            <h4>Data Analyst — Instawire LLC</h4>
-            <div class="noscript-period">2021 – 2024</div>
-            <p>Creating graphs, charts, and data visualizations to help businesses make better decisions.</p>
+            <h4>Network / Database Ops · Petromax LLC</h4>
+            <div class="noscript-period">2024-2025 · Washington, DC</div>
+            <p>Ran network and database infrastructure across multiple facilities in a 24/7 NOC: ~99.9% uptime, hands-on hardware and DB work, and incident response inside SLA. Built monitoring that cut mean-time-to-detect ~30%, plus the dashboards and runbooks the shift leaned on.</p>
           </div>
         </div>
         <div class="noscript-timeline-item">
           <div class="noscript-timeline-dot"></div>
           <div class="noscript-timeline-content">
-            <h4>Data Analyst — MGT Well</h4>
-            <div class="noscript-period">2020 – 2021</div>
-            <p>Created different types of data on different mediums to get greater quality data.</p>
+            <h4>Data Analyst · Instawire LLC</h4>
+            <div class="noscript-period">2021-2024 · McLean, VA</div>
+            <p>Federal anti-money-laundering work: combed $2B+ in daily transactions for anomalies and suspicious patterns. Power BI dashboards for triage and clustering logic that improved duplicate-detection accuracy ~23%.</p>
           </div>
         </div>
         <div class="noscript-timeline-item">
           <div class="noscript-timeline-dot"></div>
           <div class="noscript-timeline-content">
-            <h4>Comp Sci B.S.</h4>
-            <div class="noscript-period">Ongoing</div>
-            <p>Studying the fundamentals while applying them to real-world projects and challenges.</p>
+            <h4>Data Specialist · Mgtwell LLC</h4>
+            <div class="noscript-period">2020-2021 · Alexandria, VA</div>
+            <p>Processed large-scale datasets and built the ETL plus automated cleansing and dedup that kept reporting honest. Learned exactly what bad data looks like up close.</p>
+          </div>
+        </div>
+        <div class="noscript-timeline-item">
+          <div class="noscript-timeline-dot"></div>
+          <div class="noscript-timeline-content">
+            <h4>B.S. Data Analytics</h4>
+            <div class="noscript-period">In progress</div>
+            <p>Studying the analytics fundamentals while applying them to real-world systems and challenges.</p>
           </div>
         </div>
       </section>
 
       <footer class="noscript-footer">
-        © 2024 Imran Wafa. All rights reserved.<br/>
+        © 2024 Imran Wafa. All rights reserved.<br />
         <span style="margin-top:8px;display:inline-block;">
-          Built with React, Framer Motion & a lot of coffee — but you're seeing the plain version ☕
+          Built with React, Framer Motion & a lot of coffee, but you're seeing the plain version ☕
         </span>
       </footer>
     </div>

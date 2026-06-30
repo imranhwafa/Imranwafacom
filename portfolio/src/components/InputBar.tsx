@@ -48,7 +48,7 @@ export default function InputBar({
       initial={{ y: 100 }}
       animate={{ y: 0 }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className="bg-[#F2F2F7] dark:bg-[#1C1C1E] px-4 py-3 pb-safe border-t border-gray-200 dark:border-gray-800"
+      className={`bg-white/40 dark:bg-[#1C1C1E]/40 backdrop-blur-2xl px-4 py-3 pb-safe border-t border-white/20 dark:border-white/5 transition-shadow duration-500 glass-noise ${isFocused ? 'shadow-[0_-10px_40px_rgba(0,122,255,0.08)]' : 'shadow-[0_-4px_30px_rgba(0,0,0,0.03)]'}`}
     >
       <form onSubmit={handleSubmit} className="flex items-end gap-2 max-w-4xl mx-auto">
         {/* Plus Button */}
@@ -65,11 +65,11 @@ export default function InputBar({
         {/* Input Field */}
         <div className="flex-1 flex flex-col">
           <div
-            className={`bg-white dark:bg-[#2C2C2E] rounded-full px-4 py-2.5 flex items-center transition-all duration-200 ${emailError
-                ? 'ring-2 ring-red-400/60 shadow-sm'
+            className={`bg-white/70 dark:bg-[#2C2C2E]/70 backdrop-blur-md rounded-full px-4 py-2.5 flex items-center transition-all duration-300 border border-white/40 dark:border-white/10 ${emailError
+                ? 'ring-2 ring-red-400/60 shadow-[0_2px_10px_rgba(239,68,68,0.2)]'
                 : isFocused
-                  ? 'ring-2 ring-[#007AFF]/30 shadow-sm'
-                  : 'shadow-sm'
+                  ? 'ring-2 ring-[#007AFF]/30 shadow-[0_2px_15px_rgba(0,122,255,0.15)]'
+                  : 'shadow-[0_2px_10px_rgba(0,0,0,0.04)]'
               }`}
           >
             <input
@@ -102,10 +102,10 @@ export default function InputBar({
           type="submit"
           disabled={!inputText.trim() || disabled}
           whileHover={inputText.trim() && !disabled ? { scale: 1.1 } : {}}
-          whileTap={inputText.trim() && !disabled ? { scale: 0.95 } : {}}
-          className={`p-2 rounded-full transition-all flex-shrink-0 ${inputText.trim() && !disabled
-              ? 'bg-[#007AFF] text-white shadow-md'
-              : 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
+          whileTap={inputText.trim() && !disabled ? { scale: 0.9 } : {}}
+          className={`p-2 rounded-full transition-all duration-300 flex-shrink-0 ${inputText.trim() && !disabled
+              ? 'bg-gradient-to-br from-[#007AFF] to-[#0056b3] text-white shadow-[0_4px_12px_rgba(0,122,255,0.3)] hover:shadow-[0_6px_16px_rgba(0,122,255,0.4)]'
+              : 'bg-white/50 dark:bg-white/10 text-gray-400 shadow-sm'
             }`}
         >
           <Send className="w-5 h-5" />

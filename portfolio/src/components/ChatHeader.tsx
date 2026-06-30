@@ -14,7 +14,7 @@ export default function ChatHeader({ name, isOnline = true }: ChatHeaderProps) {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className="bg-[#F2F2F7]/90 dark:bg-[#1C1C1E]/90 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800"
+      className="bg-white/40 dark:bg-[#1C1C1E]/40 backdrop-blur-2xl sticky top-0 z-50 border-b border-white/20 dark:border-white/5 shadow-[0_4px_30px_rgba(0,0,0,0.03)] glass-noise"
     >
       <div className="flex items-center justify-between px-2 py-2">
         {/* Back Button */}
@@ -35,7 +35,7 @@ export default function ChatHeader({ name, isOnline = true }: ChatHeaderProps) {
             transition={{ delay: 0.1 }}
             className="relative"
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-lg shadow-md">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-semibold text-lg shadow-[0_2px_10px_rgba(0,122,255,0.3)] avatar-glow transition-all duration-500">
               {name.split(' ').map(n => n[0]).join('')}
             </div>
             {isOnline && (
@@ -51,7 +51,7 @@ export default function ChatHeader({ name, isOnline = true }: ChatHeaderProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.15 }}
-            className="text-[15px] font-semibold text-black dark:text-white mt-1"
+            className="text-[14px] font-medium tracking-tight text-black dark:text-white mt-1.5"
           >
             {name}
           </motion.h1>

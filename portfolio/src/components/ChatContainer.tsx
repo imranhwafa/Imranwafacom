@@ -109,8 +109,11 @@ export default function ChatContainer() {
             timestamp: new Date(m.timestamp),
           }));
 
-          // Check if this is a new session (refresh)
-          if (sessionId !== currentSessionId) {
+          // Check if this is a new session (refresh after at least 1 minute)
+          const lastSessionTime = sessionId ? parseInt(sessionId, 10) : 0;
+          const isNewSession = sessionId && (Date.now() - lastSessionTime > 60000);
+
+          if (isNewSession && loadedMessages.length > 0) {
             // New session - add separator and welcome messages
             const lastMessage = loadedMessages[loadedMessages.length - 1];
             const separatorMessage: Message = {
@@ -177,8 +180,14 @@ export default function ChatContainer() {
   }, []);
 
   // Auto-scroll to bottom
+  const isFirstRender = useRef(true);
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (isFirstRender.current && messages.length > 0) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+      isFirstRender.current = false;
+    } else {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [messages, isTyping]);
 
   const saveMessages = (msgs: Message[]) => {
@@ -471,11 +480,11 @@ export default function ChatContainer() {
   }, [] as { message: Message; showAvatar: boolean; isLastInGroup: boolean }[]);
 
   return (
-    <div className="flex flex-col h-screen bg-white dark:bg-black overflow-hidden">
+    <div className="flex flex-col h-screen bg-transparent overflow-hidden">
       <ChatHeader name="Imran Wafa" isOnline={true} />
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto bg-white dark:bg-black">
+      <div className="flex-1 overflow-y-auto bg-transparent">
         <div className="max-w-4xl mx-auto px-4 py-4">
           {/* Date separator for first message */}
           {messages.length > 0 && !messages[0].isSeparator && (
