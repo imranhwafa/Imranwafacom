@@ -194,7 +194,7 @@ export default function Resume() {
             <div className="resume-spec-rows">
               <div className="resume-spec-row"><span>Document</span><span>Résumé / CV</span></div>
               <div className="resume-spec-row"><span>Subject</span><span>Imran Wafa</span></div>
-              <div className="resume-spec-row"><span>Discipline</span><span>Data Spec · NOC</span></div>
+              <div className="resume-spec-row"><span>Discipline</span><span>NOC · Analyst</span></div>
               <div className="resume-spec-row"><span>Format</span><span>{numPages || '—'} pp · A4</span></div>
               <div className="resume-spec-row"><span>Set in</span><span>Grotesk · Mono</span></div>
               <div className="resume-spec-row"><span>Filed</span><span>MMXXVI</span></div>
@@ -216,7 +216,7 @@ export default function Resume() {
           >
             <div className="resume-panel-kicker">the paper version</div>
             <h2 className="resume-panel-name">Imran Wafa<span className="resume-panel-it"> — resume</span></h2>
-            <div className="resume-panel-role">Data Specialist · NOC</div>
+            <div className="resume-panel-role">NOC Technician · Data Analyst</div>
             <p className="resume-panel-msg">
               same me, on one neat stack. scroll to flip through the pages, or grab the file and read it your way.
             </p>
