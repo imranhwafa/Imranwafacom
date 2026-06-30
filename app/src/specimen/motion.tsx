@@ -744,8 +744,9 @@ export function ZoomScroll({ children, className = "", as = "div", from = 0.86, 
     if (!el || REDUCED) return;
     const ease = (x: number) => 1 - Math.pow(1 - x, 3);
     const mob = IS_MOBILE();
-    const fromEff = mob ? Math.max(0.94, from) : from;
-    const oLo = mob ? 0.7 : 0.4, oHi = mob ? 0.3 : 0.6, bMax = mob ? 1.5 : 6;
+    const fromEff = mob ? Math.max(0.96, from) : Math.max(0.93, from);
+    const oLo = mob ? 0.55 : 0.22, oHi = mob ? 0.45 : 0.78, bMax = mob ? 1 : 2.5;
+    const OFF = mob ? 26 : 64; // vertical slide distance: rise in on enter, drift up on exit
 
     // Cache the element's document offset (parallax-engine style) so the
     // scroll path is pure arithmetic — no getBoundingClientRect, no React
@@ -768,13 +769,18 @@ export function ZoomScroll({ children, className = "", as = "div", from = 0.86, 
       const botRel = (docBot - sc) / vh;
       const enterT = Math.max(0, Math.min(1, (1 - topRel) / 0.75));
       const exitT = Math.max(0, Math.min(1, botRel / 0.75));
+      const exiting = exitT < enterT;          // leaving via the top vs entering from below
       const t = ease(Math.min(enterT, exitT));
       if (Math.abs(t - last) < 0.002) return;
       last = t;
       const scale = fromEff + (1 - fromEff) * t;
-      el.style.transform = `scale(${scale.toFixed(4)})`;
+      // Rise into place from below on enter (+OFF→0), then keep drifting up on
+      // exit (0→−OFF). With the fade this pulls neighbours apart vertically so
+      // they don't pile up / overlap mid-transition.
+      const slide = (exiting ? -1 : 1) * (1 - t) * OFF;
+      el.style.transform = `translate3d(0, ${slide.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
       el.style.opacity = (oLo + oHi * t).toFixed(3);
-      el.style.filter = `blur(${((1 - t) * bMax).toFixed(2)}px)`;
+      el.style.filter = bMax ? `blur(${((1 - t) * bMax).toFixed(2)}px)` : "";
     };
     const onResize = () => { measure(); paint(); };
     measure(); paint();
