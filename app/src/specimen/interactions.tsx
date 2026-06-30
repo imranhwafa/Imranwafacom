@@ -207,11 +207,16 @@ export function ScrambleText({ text, className }: { text: string; className?: st
 // to the ones within reach; words that just left range get reset. rAF-coalesced
 // and only runs while the mouse moves. Pointer-less devices never fire → flat
 // accent, exactly as wanted.
+// Keep in sync with the gradient rule in specimen.css.
 const ACCENT_SEL = [
-  ".grad-accent", ".wordmark .it", ".tagline em", ".tagline .tag-em",
-  ".sec-title .it", ".bio em", ".bio .tag-em", ".contact-display .it",
-  ".proj-summary-l p em", ".proj-summary-l .tag-em", ".panel-title .it",
-  ".tldr-modal h3 em", ".tag.tag-w5",
+  ".grad-accent", ".wordmark .it", ".su-word .it",
+  ".tagline em", ".tagline .tag-em", ".sec-title .it", ".sec-hint.on",
+  ".masthead-greet", ".bio em", ".bio .tag-em", ".contact-display .it",
+  ".contact-row:hover .arrow-big", ".proj-summary-l p em", ".proj-summary-l .tag-em",
+  ".panel-title .it", ".tldr-modal h3 em", ".tag.tag-w5", ".tag:hover",
+  ".bar-row.bar-active .bar-label", ".bar-row.bar-active .bar-value",
+  ".heatmap-detail", ".heatmap-detail strong", ".livekpi-exp-row.best .v",
+  ".filter-pill strong", ".toast-speed",
 ].join(",");
 const SPOT_R = 340; // keep in sync with the gradient radius in specimen.css
 
@@ -219,42 +224,101 @@ export function AccentSpotlight() {
   useEffect(() => {
     // Intentionally NOT gated on REDUCED — it's a subtle cursor-driven colour
     // shift, not page motion, and pointer-less devices simply never trigger it.
-    let raf = 0, mx = 0, my = 0, seen = false;
+    let raf = 0, mx = 0, my = 0, seen = false, lastMove = 0;
     const active = new Set<HTMLElement>();
+    // Per-element CURRENT spotlight coords (local space). We ease these toward
+    // the target each frame so the gradient glides to a new spot instead of
+    // snapping — most visible after a scroll, when the word's rect jumps and the
+    // target local coord shifts. Easing the cursor wouldn't fix that (the jump
+    // comes from the rect, not the pointer), so we ease the per-element coord.
+    const EASE = 0.2;
+    const pos = new Map<HTMLElement, { x: number; y: number }>();
     const apply = () => {
       raf = 0;
       if (!seen) return; // no cursor yet → leave everything flat accent
+      // Queried fresh each pass on purpose: accent nodes get replaced by React
+      // (the per-second masthead clock, the typewriter wordmark, opened modals),
+      // so a cached NodeList would hold stale refs. ~25 nodes is cheap enough.
       const els = document.querySelectorAll<HTMLElement>(ACCENT_SEL);
       const rects: DOMRect[] = [];
       els.forEach((el) => rects.push(el.getBoundingClientRect())); // read pass
       const next = new Set<HTMLElement>();
+      let easing = false;
       els.forEach((el, i) => {                                     // write pass
         const r = rects[i];
         if (mx >= r.left - SPOT_R && mx <= r.right + SPOT_R && my >= r.top - SPOT_R && my <= r.bottom + SPOT_R) {
-          el.style.setProperty("--lx", (mx - r.left) + "px");
-          el.style.setProperty("--ly", (my - r.top) + "px");
+          const tx = mx - r.left, ty = my - r.top;
+          let cur = pos.get(el);
+          if (!cur) {
+            cur = { x: tx, y: ty };   // entering range → snap in (no fly-from-edge)
+            pos.set(el, cur);
+          } else {
+            cur.x += (tx - cur.x) * EASE;
+            cur.y += (ty - cur.y) * EASE;
+            if (Math.abs(tx - cur.x) > 0.5 || Math.abs(ty - cur.y) > 0.5) easing = true;
+            else { cur.x = tx; cur.y = ty; }
+          }
+          el.style.setProperty("--lx", cur.x.toFixed(1) + "px");
+          el.style.setProperty("--ly", cur.y.toFixed(1) + "px");
           next.add(el);
         }
       });
       active.forEach((el) => {
-        if (!next.has(el)) { el.style.removeProperty("--lx"); el.style.removeProperty("--ly"); }
+        if (!next.has(el)) { el.style.removeProperty("--lx"); el.style.removeProperty("--ly"); pos.delete(el); }
       });
       active.clear();
       next.forEach((el) => active.add(el));
+      if (easing) raf = requestAnimationFrame(apply); // keep gliding until settled
     };
     const schedule = () => { if (!raf) raf = requestAnimationFrame(apply); };
-    const onMove = (e: MouseEvent) => { mx = e.clientX; my = e.clientY; seen = true; schedule(); };
-    // The cursor stays put on screen while content scrolls/resizes under it, so
-    // recompute against the last known position — otherwise scrolling (Lenis)
-    // leaves a frozen gradient stuck on whatever word it last lit.
+    const clear = () => {
+      if (raf) { cancelAnimationFrame(raf); raf = 0; }
+      active.forEach((el) => { el.style.removeProperty("--lx"); el.style.removeProperty("--ly"); });
+      active.clear();
+      pos.clear();
+    };
+
+    // ── Mobile / touch ──────────────────────────────────────
+    // No cursor to drive the spotlight, so anchor it to a fixed band in the
+    // upper third of the viewport and recompute on scroll. Accent words light
+    // up as they scroll up into the band and fade back to flat toward the
+    // bottom of the screen — so the gradient rides the scroll. Same per-element
+    // mechanism, just with a virtual (scroll-fixed) anchor instead of a cursor.
+    if (window.matchMedia?.("(pointer: coarse)").matches) {
+      const place = () => {
+        mx = window.innerWidth / 2;
+        my = window.innerHeight * 0.32;
+        seen = true;
+        schedule();
+      };
+      place();
+      window.addEventListener("scroll", place, { passive: true });
+      window.addEventListener("resize", place, { passive: true });
+      return () => {
+        window.removeEventListener("scroll", place);
+        window.removeEventListener("resize", place);
+        clear();
+      };
+    }
+
+    // ── Desktop ─────────────────────────────────────────────
+    // The spotlight follows the pointer. Two scroll cases:
+    //  • scroll WHILE moving the mouse → recompute, so the spotlight stays glued
+    //    to the cursor with fresh rects (and the rAF the mousemove queued isn't
+    //    cancelled — that race was the old flicker bug).
+    //  • idle scroll (pointer still) → do NOTHING. --lx/--ly are element-local,
+    //    so leaving them be keeps the gradient locked to the same spot on the
+    //    word; it just rides along as the word scrolls, instead of vanishing.
+    const onMove = (e: MouseEvent) => { mx = e.clientX; my = e.clientY; seen = true; lastMove = performance.now(); schedule(); };
+    const onScroll = () => { if (performance.now() - lastMove < 150) schedule(); };
     window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", clear, { passive: true });
     return () => {
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", clear);
+      clear();
     };
   }, []);
   return null;
