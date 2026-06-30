@@ -4,6 +4,7 @@
 // ============================================================
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactNode, RefObject } from "react";
+import { useNavigate } from "react-router-dom";
 import { SITE } from "./site-config";
 import { COPY } from "./copy";
 import { sectionTimes, pageStart } from "./runtime";
@@ -202,6 +203,7 @@ const COMMANDS: Command[] = [
   { cmd: "/certs", action: "scroll", target: "certs", desc: "certifications" },
   { cmd: "/experience", action: "scroll", target: "experience", desc: "work history" },
   { cmd: "/contact", action: "scroll", target: "contact", desc: "send me a message" },
+  { cmd: "/resume", action: "resume", desc: "open the paper version (pdf reader)" },
   { cmd: "/home", action: "scroll", target: "top", desc: CFG.commandPalette.commandDescriptions.home },
   { cmd: "/tldr", action: "tldr", desc: CFG.commandPalette.commandDescriptions.tldr },
   { cmd: "/stats", action: "stats", desc: CFG.commandPalette.commandDescriptions.stats },
@@ -228,6 +230,7 @@ export function CommandPalette({ openTldr }: { openTldr: () => void }) {
   const [query, setQuery] = useState("");
   const [view, setView] = useState<"list" | "stats" | "secret" | "txt">("list");
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const navigate = useNavigate();
 
   const close = useCallback(() => { setOpen(false); setQuery(""); setView("list"); }, []);
 
@@ -298,6 +301,9 @@ export function CommandPalette({ openTldr }: { openTldr: () => void }) {
     } else if (c.action === "debug") {
       window.dispatchEvent(new CustomEvent("iw-debug-toggle"));
       close();
+    } else if (c.action === "resume") {
+      close();
+      navigate("/resume");
     } else if (c.action === "switch") {
       advanceVerb();
       setQuery("");
