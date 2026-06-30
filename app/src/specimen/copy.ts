@@ -32,9 +32,9 @@ export const COPY = {
   // ── Masthead ──────────────────────────────────────────────
   masthead: {
     volume: "Vol. 03 / Iss. 01",
-    volumeTaps: ["Vol. 03 — the good one.", "every issue is the first issue.", "no back-issues. sorry."],
-    location: "Seattle · 47.6° N",
-    locationTaps: ["47.6088° N, 122.3303° W. roughly.", "it's probably raining.", "say hi if you're nearby."],
+    volumeTaps: ["Vol. 03: the good one.", "every issue is the first issue.", "no back-issues. sorry."],
+    location: "Washington · 38.9° N",
+    locationTaps: ["38.9072° N, 77.0369° W. roughly.", "the DMV. it's probably humid.", "say hi if you're nearby."],
     greetings: {
       late: ["up late?", "burning the midnight oil?", "go to sleep (jk, stay)"],
       morning: ["good morning", "morning, you", "coffee first?"],
@@ -42,7 +42,7 @@ export const COPY = {
       evening: ["good evening", "evening, you", "winding down?"],
     },
     greetTitle: "(tap to re-greet)",
-    center: "A SPECIMEN SHEET — IMRAN WAFA",
+    center: "A SPECIMEN SHEET · IMRAN WAFA",
     centerTaps: ["a type-specimen sheet, but it's a person.", "press / anywhere for the command palette.", "yes, almost everything here is tappable."],
     liveLabel: "Live",
     liveTaps: ["live & deployed. hi from production.", "no, really, this is the live build."],
@@ -56,28 +56,28 @@ export const COPY = {
   hero: {
     metaLeft: [
       { k: "SUBJECT", v: "Imran H. Wafa", copy: "Imran H. Wafa" },
-      { k: "DISCIPLINE", v: "Software · Data · Design", taps: ["software · data · design — in that order, sometimes.", "i wear all three hats. badly photographed."] },
+      { k: "DISCIPLINE", v: "Operations · Data · Systems", taps: ["operations · data · systems: keeping things up and making sense of them.", "i wear all three hats. badly photographed."] },
       { k: "EST.", v: "MMXX", taps: ["MMXX = 2020. been a minute.", "established mid-pandemic. as one does."] },
     ] as MetaBlock[],
     metaRight: [
       { k: "FOLIO N°", v: "001 / 006", taps: ["folio one of six. keep scrolling.", "you are here. roughly."] },
-      { k: "EDITION", v: "v0.0.1 · MMXXVI", taps: ["v0.0.1 — still very much zero-point-zero.", "MMXXVI = 2026. yes, already."] },
+      { k: "EDITION", v: "v0.0.1 · MMXXVI", taps: ["v0.0.1: still very much zero-point-zero.", "MMXXVI = 2026. yes, already."] },
       { k: "FORMAT", v: "Specimen sheet", taps: ["a type-specimen, but for a person.", "format: printed-page energy, on the web."] },
     ] as MetaBlock[],
     wordmark: [{ text: "I build" }, { br: true }, { text: "things.", className: "it" }] as Seg[],
-    wordmarkSub: "— Sometimes I design them too —",
+    wordmarkSub: "and I keep them running",
     tagline: [
-      { text: "Developer & data analyst. I build software, ship dashboards, and care a lot about the details — " },
-      { text: "numbers, pixels, all of it.", className: "tag-em" },
+      { text: "Operations & data. I keep network and database systems up in 24/7 environments, then turn the mess into dashboards people can act on, and I sweat the details: " },
+      { text: "uptime, signals, all of it.", className: "tag-em" },
     ] as Seg[],
     dosierLeft: [
-      { k: "Currently", v: "Comp Sci, B.S.", taps: ["finishing the degree. slowly but surely.", "B.S. — the science kind, mostly."] },
-      { k: "Stack", v: "TS · Python · React", copy: "TypeScript · Python · React" },
-      { k: "Lately", v: "AI · automation · craft", taps: ["AI, automation, and sweating the details.", "craft is just caring out loud."] },
+      { k: "Currently", v: "Data Analytics, B.S.", taps: ["finishing the degree. slowly but surely.", "the analytics track, the useful one."] },
+      { k: "Stack", v: "Linux · SQL · Python", copy: "Linux · SQL · Python" },
+      { k: "Lately", v: "uptime · automation · data", taps: ["monitoring, automation, and sweating the details.", "reliability is just caring out loud."] },
       { k: "Homelab", v: "mail · NAS · AI rig", taps: ["self-hosted: a box for SMTP + a couple of APIs, a NAS for storage, and a dedicated AI rig.", "yes, I run my own mail server. on purpose."] },
     ] as DosierRow[],
     dosierRight: [
-      { k: "Status", v: "Open to work", taps: ["open to work — let's talk.", "yes, that means you, recruiter."], scrollTo: "contact" },
+      { k: "Status", v: "Open to work", taps: ["open to work, let's talk.", "yes, that means you, recruiter."], scrollTo: "contact" },
       { k: "Replies", v: "Within 48h", taps: ["usually faster than 48h, honestly.", "weekends included. it's fine."] },
     ] as DosierRow[],
     coffee: {
@@ -86,27 +86,27 @@ export const COPY = {
       title: "(tap for a refill)",
       // {n} is replaced with the current count
       first: "☕ one for you.",
-      few: "☕ ×{n} — refilled.",
+      few: "☕ ×{n}, refilled.",
       many: "☕ ×{n}. easy, tiger.",
       problem: "☕ ×{n}. you have a problem (relatable).",
     },
     kpis: [
-      { label: "Projects shipped", value: "", unit: "repos" }, // value filled from data
-      { label: "Lines of code", value: "", unit: "k LoC" },
-      { label: "Total commits", value: "", unit: "all-time" },
-      { label: "GitHub stars", value: "", unit: "★" },
-      { label: "Years building", value: "5", unit: "yrs" },
+      { label: "Uptime sustained", value: "99.9", unit: "%" },
+      { label: "MTTD cut", value: "30", unit: "%" },
+      { label: "Daily volume", value: "$2B+", unit: "/day" },
+      { label: "Dedup accuracy", value: "23", unit: "%" },
+      { label: "Years in ops / data", value: "5", unit: "yrs" },
     ] as KpiStat[],
   },
 
   // ── Scroller (marquee strip) ──────────────────────────────
   scroller: [
-    "Now shipping — miLoader v0.4",
-    "Reading — The Pragmatic Engineer",
-    "Listening — lo-fi & jazz",
-    "Currently learning — Rust",
+    "Now shipping: miLoader v0.4",
+    "Reading: The Pragmatic Engineer",
+    "Listening: lo-fi & jazz",
+    "Currently learning: Rust",
     "Open to collaborations",
-    "Based in Seattle, WA",
+    "Based in Washington, DC",
     "imran@imranwafa.com",
   ],
 
@@ -118,7 +118,7 @@ export const COPY = {
     work: { num: "§ 04 / PERSONAL", hint: "(the part where I sell myself)", title: [{ text: "Personal " }, { text: "projects.", className: "it" }] as Seg[] },
     experience: { num: "§ 05 / EXPERIENCE", hint: "(where the rent came from)", title: [{ text: "Where I've " }, { text: "worked.", className: "it" }] as Seg[], meta: "WORK HISTORY" },
     workprojects: { num: "§ 06 / WORK", hint: "(shipped on someone's dime)", title: [{ text: "On the " }, { text: "clock.", className: "it" }] as Seg[], meta: "AVAILABLE ON REQUEST" },
-    dash: { num: "§ 07 / METRICS", hint: "(numbers don't lie. mostly.)", title: [{ text: "By the " }, { text: "numbers.", className: "it" }] as Seg[], meta: "DATA · 2020 — 2025" },
+    dash: { num: "§ 07 / METRICS", hint: "(numbers don't lie. mostly.)", title: [{ text: "By the " }, { text: "numbers.", className: "it" }] as Seg[], meta: "DATA · 2020-2025" },
     contact: { num: "§ 08 / CORRESPOND", hint: "(i actually reply)", title: [{ text: "Drop a " }, { text: "line.", className: "it" }] as Seg[], meta: "04 CHANNELS · <48H REPLY" },
   },
 
@@ -168,16 +168,16 @@ export const COPY = {
   // ── About / dossier ───────────────────────────────────────
   about: {
     bio1: [
-      { text: "I build things and analyze data, usually at the same time. I care a lot about software that " },
-      { text: "actually feels good to use", className: "tag-em" },
-      { text: ", not just works. There's a difference and most people skip it." },
+      { text: "I keep systems running and turn data into something people can act on, usually at the same time. I care about infrastructure that " },
+      { text: "actually stays up", className: "tag-em" },
+      { text: ", not just works on a good day. There's a difference and most setups skip it." },
     ] as Seg[],
     bio2: [
-      { text: "When I'm not at a computer I'm probably tearing down an engine, or automating something that didn't really need automating. Worth it though. I also run a homelab — a server for my own mail and a couple of APIs, a NAS for storage, and an AI rig for local models." },
+      { text: "When I'm not watching a NOC queue or a wall of dashboards, I'm probably tearing down an engine, or automating something that didn't really need automating. Worth it though. I also run a homelab: a server for my own mail and a couple of APIs, a NAS for storage, and an AI rig for local models." },
     ] as Seg[],
     stats: [
-      { label: "Years coding", value: "5", unit: "active" },
-      { label: "Languages", value: "8", unit: "prod" },
+      { label: "Years in the field", value: "5", unit: "active" },
+      { label: "Certifications", value: "5", unit: "earned" },
       { label: "Projects", value: "", unit: "public" }, // value filled from data
       { label: "Coffee / day", value: "3.2", unit: "cups" },
     ] as KpiStat[],
@@ -197,8 +197,8 @@ export const COPY = {
     email: { v: "imran@imranwafa.com", copy: "imran@imranwafa.com", title: "(tap to copy)" },
     github: { v: "github.com/imranhwafa", copy: "github.com/imranhwafa", title: "(tap to copy)" },
     colophonTitle: { v: "Colophon", taps: ["the fine print, lovingly set.", "every site deserves a colophon."] },
-    font1: { v: "Set in Space Grotesk", taps: ["Space Grotesk — for the big, confident bits.", "yes, the type is part of the point."] },
-    font2: { v: "& JetBrains Mono", taps: ["JetBrains Mono — for the numbers & code.", "monospace makes data feel honest."] },
+    font1: { v: "Set in Space Grotesk", taps: ["Space Grotesk: for the big, confident bits.", "yes, the type is part of the point."] },
+    font2: { v: "& JetBrains Mono", taps: ["JetBrains Mono: for the numbers & code.", "monospace makes data feel honest."] },
     copyright: { v: "© MMXXVI", taps: ["MMXXVI. © and all that.", "no rights reserved against curiosity."] },
     visitFirst: ["first time? welcome aboard."],
     visitReturn: ["visit N° {n}. you keep coming back.", "the counter lives in your browser, just so you know."],
@@ -247,7 +247,7 @@ export const COPY = {
     deepLines: [
       "so the page kept itself busy.",
       "the dots are pacing without you.",
-      "no rush — I'll be right here.",
+      "no rush, I'll be right here.",
       "move anything and I'll snap back.",
     ],
     wakeHint: "move to wake",
