@@ -395,7 +395,7 @@ function Dashboard({ tagFilter, onSelectTag }: DashboardProps) {
               <div className="panel-title"><Segs segs={COPY.dash.landscape.title} /></div>
               <div className="panel-meta">{COPY.dash.landscape.meta}</div>
             </div>
-            <BubbleChart data={PROJECTS.map((p) => ({ label: p.title, x: p.metrics.loc, y: p.metrics.stars, r: p.metrics.commits }))} />
+            <BubbleChart data={PROJECTS.map((p) => ({ label: p.title, x: p.metrics.loc, y: p.metrics.files, r: p.metrics.commits }))} />
             <div className="panel-foot">{COPY.dash.landscape.foot}</div>
           </Reveal>
 
@@ -442,7 +442,6 @@ function projVal(p: Project, key: string): string | number {
   switch (key) {
     case "title": return p.title;
     case "year": return p.year;
-    case "stars": return p.metrics.stars;
     case "loc": return p.metrics.loc;
     case "commits": return p.metrics.commits;
     default: return p.n;
@@ -474,7 +473,7 @@ function ProjectIndex({ tagFilter, onClearFilter }: ProjectIndexProps) {
     else { setSortKey(k); setSortDir(k === "n" || k === "title" ? "asc" : "desc"); }
   };
   const arrow = (k: string) => (sortKey === k ? (sortDir === "asc" ? " ↑" : " ↓") : "");
-  const maxStars = Math.max(...PROJECTS.map((p) => p.metrics.stars));
+  const maxCommits = Math.max(...PROJECTS.map((p) => p.metrics.commits));
 
   return (
     <section className="section shell" id="work" ref={ref}>
@@ -506,9 +505,9 @@ function ProjectIndex({ tagFilter, onClearFilter }: ProjectIndexProps) {
               <BarRow
                 key={p.n}
                 label={p.title}
-                value={p.metrics.stars}
-                max={maxStars}
-                suffix="★"
+                value={p.metrics.commits}
+                max={maxCommits}
+                suffix=""
                 active={hoverRow === p.n}
                 onClick={() => setOpen(PROJECTS.indexOf(p) === open ? null : PROJECTS.indexOf(p))}
               />
@@ -524,7 +523,7 @@ function ProjectIndex({ tagFilter, onClearFilter }: ProjectIndexProps) {
               <th className="idx-th">{COPY.work.headers.desc}</th>
               <th onClick={() => click("loc")} className="idx-th">{COPY.work.headers.loc}{arrow("loc")}</th>
               <th onClick={() => click("commits")} className="idx-th">{COPY.work.headers.commits}{arrow("commits")}</th>
-              <th onClick={() => click("stars")} className="idx-th idx-th-r">{COPY.work.headers.stars}{arrow("stars")}</th>
+              <th className="idx-th idx-th-r">{COPY.work.headers.files}</th>
             </tr>
           </thead>
           <tbody>
@@ -548,7 +547,7 @@ function ProjectIndex({ tagFilter, onClearFilter }: ProjectIndexProps) {
                     <td className="idx-met">{p.metrics.commits}</td>
                     <td className="idx-met idx-met-r">
                       <Sparkline data={p.trend} w={56} h={18} stroke="var(--accent)" />
-                      <span className="idx-stars">{p.metrics.stars}★</span>
+                      <span className="idx-stars">{p.metrics.files}</span>
                     </td>
                   </RevealTr>
                   {open === i && (
@@ -566,7 +565,6 @@ function ProjectIndex({ tagFilter, onClearFilter }: ProjectIndexProps) {
                               <div className="idx-metric">{COPY.work.detail.loc}<span className="v">{(p.metrics.loc / 1000).toFixed(1)}k</span></div>
                               <div className="idx-metric">{COPY.work.detail.commits}<span className="v">{p.metrics.commits}</span></div>
                               <div className="idx-metric">{COPY.work.detail.files}<span className="v">{p.metrics.files}</span></div>
-                              <div className="idx-metric">{COPY.work.detail.stars}<span className="v">{p.metrics.stars}</span></div>
                             </div>
                             <a className="idx-link" href={p.link} target="_blank" rel="noreferrer">{COPY.work.detail.link}</a>
                           </div>

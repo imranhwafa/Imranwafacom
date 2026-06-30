@@ -130,8 +130,8 @@ export const COPY = {
     activity: { title: [{ text: "Activity", className: "it" }, { text: " · 26 wks" }] as Seg[], meta: "COMMITS", less: "less", more: "more" },
     topics: { title: [{ text: "Topic " }, { text: "cloud", className: "it" }] as Seg[], meta: "WEIGHTED", footIdle: "CLICK A TAG TO FILTER THE PROJECTS ABOVE", footActivePrefix: "filtering projects by ", footActiveSuffix: " · click again to clear" },
     subhead: "§ 01.5 · DEEPER CUTS",
-    landscape: { title: [{ text: "Project " }, { text: "landscape", className: "it" }] as Seg[], meta: "LoC × STARS × COMMITS", foot: "BUBBLE SIZE = COMMIT VOLUME · HOVER FOR DETAIL" },
-    capability: { title: [{ text: "Capability " }, { text: "profile", className: "it" }] as Seg[], meta: "SELF-ASSESSED", foot: "SIX AXES · NORMALISED 0—100" },
+    landscape: { title: [{ text: "Project " }, { text: "landscape", className: "it" }] as Seg[], meta: "LoC × FILES × COMMITS", foot: "BUBBLE SIZE = COMMIT VOLUME · HOVER FOR DETAIL" },
+    capability: { title: [{ text: "Capability " }, { text: "profile", className: "it" }] as Seg[], meta: "SELF-ASSESSED", foot: "SIX AXES · NORMALISED 0-100" },
     timeAlloc: { title: [{ text: "Time " }, { text: "allocation", className: "it" }] as Seg[], meta: "TYPICAL WEEK", foot: "EACH CELL = 1% OF FOCUSED HOURS" },
     targets: { title: [{ text: "Annual " }, { text: "targets", className: "it" }] as Seg[], meta: "YTD · MMXXVI", foot: "FOUR METRICS · LIVE-ISH" },
   },
@@ -148,18 +148,18 @@ export const COPY = {
     ] as Seg[],
     filteringPrefix: "filtering by ",
     clearLabel: "clear ×",
-    barsLabel: "Stars · click to focus",
-    headers: { num: "N°", title: "Title", desc: "Description", loc: "LoC", commits: "Commits", stars: "Stars" },
+    barsLabel: "Commits · click to focus",
+    headers: { num: "N°", title: "Title", desc: "Description", loc: "LoC", commits: "Commits", files: "Files" },
     emptyPrefix: "No projects match \"",
     emptySuffix: "\". ",
     emptyClear: "clear filter",
-    detail: { year: "Year", type: "Type", status: "Status", stack: "Stack", loc: "LoC", commits: "Commits", files: "Files", stars: "Stars", link: "View source ↗" },
+    detail: { year: "Year", type: "Type", status: "Status", stack: "Stack", loc: "LoC", commits: "Commits", files: "Files", link: "View source ↗" },
   },
 
   // ── Work projects (placeholder) ───────────────────────────
   workProjects: {
     title: [{ text: "Client & " }, { text: "team work.", className: "it" }] as Seg[],
-    body: "Most of my professional work lives behind NDAs and private repos — dashboards, internal tooling, and data pipelines built on the clock. Case studies are available on request.",
+    body: "Most of my professional work lives behind NDAs and locked-down systems: NOC monitoring, dashboards, internal tooling, and data pipelines built on the clock. Case studies are available on request.",
     note: "Coming soon",
     cta: "Request the details ↗",
     ctaHref: "mailto:contact@imranwafa.com?subject=Work%20projects",
@@ -229,15 +229,15 @@ export const COPY = {
 
   // ── Data-viz tap reactions ({…} filled from the datum) ────
   viz: {
-    donut: "{label} — {value}% of the code.",
+    donut: "{label}: {value}% of the code.",
     gauge: "{label}: {value}{unit}. on track.",
-    waffle: "{label} — a real slice of the week.",
+    waffle: "{label}: a real slice of the week.",
     heatmap: "{date}: {commits} commits that day.",
     heatmapEmpty: "{date}: a rare day off.",
     radar: "{axis}: {value}/100, self-assessed.",
-    bubble: "{label} — {loc}k LoC · {stars}★ · {commits} commits.",
+    bubble: "{label}: {loc}k LoC · {files} files · {commits} commits.",
     stat: "{label}: {value}{unit}",
-    line: "{label} — {value} that year.",
+    line: "{label}: {value} that year.",
   },
 
   // ── Idle screensaver — escalates the longer you sit still ──

@@ -482,9 +482,9 @@ export function RadarChart({ data, size = 230, levels = 4 }: { data: RadarDatum[
   );
 }
 
-// ── BubbleChart — project landscape (LoC × stars × commits) ─
+// ── BubbleChart — project landscape (LoC × files × commits) ─
 interface BubbleDatum { label: string; x: number; y: number; r: number }
-export function BubbleChart({ data, w = 560, h = 300, padding = 46, xLabel = "LINES OF CODE", yLabel = "STARS" }: {
+export function BubbleChart({ data, w = 560, h = 300, padding = 46, xLabel = "LINES OF CODE", yLabel = "FILES" }: {
   data: BubbleDatum[]; w?: number; h?: number; padding?: number; xLabel?: string; yLabel?: string;
 }) {
   const [ref, seen] = useInView<HTMLDivElement>(0.2);
@@ -514,7 +514,7 @@ export function BubbleChart({ data, w = 560, h = 300, padding = 46, xLabel = "LI
         {data.map((d, i) => {
           const on = hover === i;
           return (
-            <g key={i} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)} onClick={() => emitTap(tpl(COPY.viz.bubble, { label: d.label, loc: (d.x / 1000).toFixed(1), stars: d.y, commits: d.r }))} style={{ cursor: "pointer" }}>
+            <g key={i} onMouseEnter={() => setHover(i)} onMouseLeave={() => setHover(null)} onClick={() => emitTap(tpl(COPY.viz.bubble, { label: d.label, loc: (d.x / 1000).toFixed(1), files: d.y, commits: d.r }))} style={{ cursor: "pointer" }}>
               <circle className={"bubble" + (on ? " on" : "")} cx={sx(d.x)} cy={sy(d.y)} r={sr(d.r) * t} />
               <text className="bubble-label" x={sx(d.x)} y={sy(d.y) + 3} textAnchor="middle" style={{ opacity: t }}>{d.label.slice(0, 2)}</text>
             </g>
@@ -525,7 +525,7 @@ export function BubbleChart({ data, w = 560, h = 300, padding = 46, xLabel = "LI
         <div className="chart-tooltip" style={{ left: `${(sx(data[hover].x) / w) * 100}%`, top: 8 }}>
           <div className="tt-title">{data[hover].label}</div>
           <div className="tt-row"><span /><span className="tt-label">LoC</span><span className="tt-val">{(data[hover].x / 1000).toFixed(1)}k</span></div>
-          <div className="tt-row"><span /><span className="tt-label">Stars</span><span className="tt-val">{data[hover].y}</span></div>
+          <div className="tt-row"><span /><span className="tt-label">Files</span><span className="tt-val">{data[hover].y}</span></div>
           <div className="tt-row"><span /><span className="tt-label">Commits</span><span className="tt-val">{data[hover].r}</span></div>
         </div>
       )}
