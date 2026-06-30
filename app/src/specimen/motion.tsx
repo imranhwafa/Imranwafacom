@@ -369,20 +369,24 @@ export function TypeOnView({
     }
   }, [shown]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // MODE 1: Typewriter
+  // MODE 1: Typewriter — driven off the shared rAF ticker with time-based
+  // progress. Frame-aligned (no mid-frame timer thrash) and self-correcting:
+  // if the main thread stalls, the next frame jumps straight to the character
+  // the elapsed time calls for, so typing stays smooth instead of bunching up
+  // into bursts the way setInterval does under load.
   useEffect(() => {
     if (REDUCED || !shown || modeRef.current !== "typewriter") return;
-    let id = 0 as unknown as ReturnType<typeof setInterval>;
-    const st = setTimeout(() => {
-      id = setInterval(() => {
-        setCount((c) => {
-          const n = c + 1;
-          if (n >= full.length) { clearInterval(id); done(); return full.length; }
-          return n;
-        });
-      }, speed);
-    }, startDelay);
-    return () => { clearTimeout(st); clearInterval(id); };
+    let t0 = 0;       // wall-clock start (set after startDelay, on first tick)
+    let last = 0;     // last count pushed to state — avoid redundant setState
+    const stop = onTick(() => {
+      const now = performance.now();
+      if (t0 === 0) { t0 = now + startDelay; return; }
+      if (now < t0) return;
+      const n = Math.min(full.length, Math.floor((now - t0) / speed) + 1);
+      if (n !== last) { last = n; setCount(n); }
+      if (n >= full.length) { stop(); done(); }
+    });
+    return stop;
   }, [shown, modeRef.current]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // MODE 2: Word fade
@@ -403,25 +407,25 @@ export function TypeOnView({
   useEffect(() => {
     if (REDUCED || !shown || modeRef.current !== "scramble") return;
     const chars = Array.from(full);
-    let resolved = 0;
-    let id = 0 as unknown as ReturnType<typeof setInterval>;
     const SOFT_CHARS = "abcdefghijklmnopqrstuvwxyz0123456789";
-    const st = setTimeout(() => {
-      id = setInterval(() => {
-        setScrambled((prev) =>
-          prev.map((cell, i) => {
-            if (cell.done) return cell;
-            if (i < resolved) return { char: chars[i], done: true };
-            const orig = chars[i];
-            if (orig === " " || orig === "\n") return { char: orig, done: false };
-            return { char: SOFT_CHARS[Math.floor(Math.random() * SOFT_CHARS.length)], done: false };
-          }),
-        );
-        resolved += 2;
-        if (resolved > chars.length) { clearInterval(id); done(); }
-      }, speed * 0.8);
-    }, startDelay);
-    return () => { clearTimeout(st); clearInterval(id); };
+    const step = speed * 0.8;
+    let t0 = 0, lastPaint = 0;
+    // Frame-synced + time-based, with the shimmer repaint capped to ~30fps so
+    // it stays cheap and smooth (no per-tick full-string churn under load).
+    const stop = onTick(() => {
+      const now = performance.now();
+      if (t0 === 0) { t0 = now + startDelay; return; }
+      if (now < t0 || now - lastPaint < 33) return;
+      lastPaint = now;
+      const resolved = Math.floor((now - t0) / step) * 2;
+      setScrambled(chars.map((orig, i) => {
+        if (i < resolved) return { char: orig, done: true };
+        if (orig === " " || orig === "\n") return { char: orig, done: false };
+        return { char: SOFT_CHARS[Math.floor(Math.random() * SOFT_CHARS.length)], done: false };
+      }));
+      if (resolved > chars.length) { stop(); done(); }
+    });
+    return stop;
   }, [shown, modeRef.current]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // MODE 4: Cascade
